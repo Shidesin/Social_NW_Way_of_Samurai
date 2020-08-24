@@ -1,10 +1,12 @@
 export type MessageDataType = {
     id: number
     message: string
+    classMsg?: string
 }
 export type DialogDataType = {
     id: number
     name: string
+    avatar: string
 }
 export type PostDataType = {
     id: number
@@ -18,9 +20,17 @@ export type DialogPageType ={
     dialogData: Array<DialogDataType>
     messageData: Array<MessageDataType>
 }
+export type friendsDataType = {
+    id: number
+    name: string
+    avatar: string
+}
+export type sidebarType = {
+    friendsData: Array<friendsDataType>  }
 export type RootStateType ={
     profilePage: ProfilePageType
     dialogPage: DialogPageType
+    sidebar: sidebarType
 }
 
 let state: RootStateType = {
@@ -32,19 +42,35 @@ let state: RootStateType = {
     },
     dialogPage: {
         dialogData: [
-            {id: 1, name: 'Dimych'},
-            {id: 2, name: 'Andrey'},
-            {id: 3, name: 'Sveta'},
-            {id: 4, name: 'Sasha'},
-            {id: 5, name: 'Victor'},
-            {id: 6, name: 'Valera'},
+            {id: 1, name: 'Dimych', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSGlQXWqbQZJOfxE7MtMvIs9--VPgCp-dHPGA&usqp=CAU'},
+            {id: 2, name: 'Andrey', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTWJGTfcKEsf8orptPluRjia6-mqRXzKQV2wA&usqp=CAU'},
+            {id: 3, name: 'Sveta', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQFL5jonyCNC78_Ao6k1IXgS1JdSAFnJhR-bQ&usqp=CAU'}
         ],
         messageData: [
             {id: 1, message: 'Hi'},
             {id: 2, message: 'How is your it-kamasutra'},
             {id: 3, message: 'Yo'}
         ]
+    },
+    sidebar: {
+        friendsData: [
+            {id: 1, name: 'Dimych', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSGlQXWqbQZJOfxE7MtMvIs9--VPgCp-dHPGA&usqp=CAU'},
+            {id: 2, name: 'Andrey', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTWJGTfcKEsf8orptPluRjia6-mqRXzKQV2wA&usqp=CAU'},
+            {id: 3, name: 'Sveta', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQFL5jonyCNC78_Ao6k1IXgS1JdSAFnJhR-bQ&usqp=CAU'}
+        ]
     }
+
+
 };
+
+export let addPost = (postMessageData: string) => {
+    debugger;
+    let newPost: PostDataType  = {
+        id: 5,
+        post: postMessageData,
+        CounterLike: 0
+    };
+    state.profilePage.postData.push(newPost)
+}
 
 export default state;

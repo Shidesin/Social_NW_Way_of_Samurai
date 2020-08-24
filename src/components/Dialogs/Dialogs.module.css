@@ -1,21 +1,68 @@
 .dialogs {
     display: grid;
     grid-template-columns: 2fr 10fr;
-
 }
 
 .dialogsItems {
     padding: 10px;
+
 }
 
-.dialogsItems .active {
-    color: gold;
+.dialog {
+    color: white;
+    text-decoration: none
 }
+
 
 .messages {
+    margin: 10px;
+    margin-right: 100px;
     padding: 10px;
+    border: black 2px solid;
+    border-radius: 5px;
+    width: available;
 }
 
-.messages .message {
+.message {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.textArea_box {
+    margin-top: 10px;
+}
+
+.textaria_style {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.textArea_box_button {
+
+}
+
+.avatars {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+}
+
+.avatars_friend {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    margin-left: 5px;
+}
+
+.friends_box {
+    display: inline-block;
+    font-size: 12px;
+    padding: 5px;
+}
+
+.my_message {
+    text-align: right;
 
 }

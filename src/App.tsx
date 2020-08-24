@@ -8,11 +8,13 @@ import News from './components/News/News';
 import Music from './components/Music/Music';
 import Setting from './components/Setting/Setting';
 import {Profile} from './components/Profile/Profile';
-import { RootStateType} from './redux/state';
+import {RootStateType} from './redux/state';
 
 type PropsType = {
     state: RootStateType
+    addPost: (postMessageData: string) => void
 }
+
 
 
 const App: React.FC<PropsType> = (props) => {
@@ -21,11 +23,14 @@ const App: React.FC<PropsType> = (props) => {
         <BrowserRouter>
             <div className={'app-wrapper'}>
                 <Header/>
-                <Navbar/>
+                <Navbar friends={props.state.sidebar}/>
                 <div className={'app-wrapper-content'}>
                     <Route path={'/dialogs'}
                            render={() => <Dialogs dialogPage={props.state.dialogPage}/>}/>
-                    <Route path={'/profile'} render={() => <Profile profilePage={props.state.profilePage}/>}/>
+                    <Route path={'/profile'} render={() =>
+                        <Profile profilePage={props.state.profilePage}
+                                 addPost={props.addPost}
+                        />}/>
                     <Route path={'/news'} render={() => <News/>}/>
                     <Route path={'/music'} render={() => <Music/>}/>
                     <Route path={'/setting'} render={() => <Setting/>}/>

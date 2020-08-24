@@ -1,8 +1,23 @@
-import React from "react";
+import React from 'react';
 import stylecss from './Navbar.module.css'
 import {NavLink} from 'react-router-dom';
+import {sidebarType} from '../../redux/state';
+import s from './../Dialogs/Dialogs.module.css'
 
-export function Navbar() {
+type PropsType = {
+    friends: sidebarType
+}
+
+export const Navbar: React.FC<PropsType> = (props) => {
+
+    let friends = props.friends.friendsData.map(f =>
+        <span  className={s.friends_box}>
+            <div>
+                <img className={s.avatars_friend} src={f.avatar} alt="avatar"/>
+            </div>
+            {f.name}
+        </span>)
+
     return (
         <nav className={stylecss.nav}>
             <div className={`${stylecss.item} ${stylecss.active}`}>
@@ -19,6 +34,13 @@ export function Navbar() {
             </div>
             <div className={stylecss.item}>
                 <NavLink to={'/setting'} activeClassName={stylecss.activeLink}>Settings</NavLink>
+            </div>
+            <div>
+                <h3>Friends</h3>
+                <div >
+                    {friends}
+                </div>
+
             </div>
         </nav>
     )

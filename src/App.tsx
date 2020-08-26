@@ -14,6 +14,8 @@ type PropsType = {
     state: RootStateType
     addPost: (postMessageData: string) => void
     updateNewPostText: (newText: string) => void
+    addMessage: (messageData: string) => void
+    updateNewMessageText: (newMessage: string) => void
 }
 
 const App: React.FC<PropsType> = (props) => {
@@ -25,7 +27,12 @@ const App: React.FC<PropsType> = (props) => {
                 <Navbar friends={props.state.sidebar}/>
                 <div className={'app-wrapper-content'}>
                     <Route path={'/dialogs'}
-                           render={() => <Dialogs dialogPage={props.state.dialogPage}/>}/>
+                           render={() =>
+                               <Dialogs dialogPage={props.state.dialogPage}
+                                        addMessage={props.addMessage}
+                                        updateNewMessageText={props.updateNewMessageText}
+                                        newMessageText={props.state.dialogPage.newMessageText}
+                               />}/>
                     <Route path={'/profile'} render={() =>
                         <Profile profilePage={props.state.profilePage}
                                  addPost={props.addPost}

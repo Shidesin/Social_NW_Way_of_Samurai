@@ -6,6 +6,9 @@ import {DialogPageType} from '../../redux/state';
 
 type DialogsType = {
     dialogPage: DialogPageType
+    addMessage: (messageData: string) => void
+    updateNewMessageText: (newMessage: string) => void
+    newMessageText: string
 }
 
 const Dialogs: React.FC<DialogsType> = (props) => {
@@ -13,13 +16,19 @@ const Dialogs: React.FC<DialogsType> = (props) => {
     let dialog = props.dialogPage.dialogData.map(d => <DialogItem id={d.id} name={d.name} avatar={d.avatar}/>)
 
     let message = props.dialogPage.messageData.map(m => <Message id={m.id} message={m.message}/>)
-    let myMessage = props.dialogPage.messageData.map(m => m.id % 3 === 0 ?
-        <Message id={m.id} message={m.message} classMsg={'my_message'}/> : null)
 
     let newMessage = React.createRef<HTMLTextAreaElement>();
-    let addPost = () => {
-        let text = newMessage.current?.value;
-        alert(text)
+
+    let addMessage = () => {
+        if(newMessage.current){
+            props.addMessage(newMessage.current.value)
+        }
+    }
+
+    let onMessageChange = () => {
+        if(newMessage.current){
+            props.updateNewMessageText(newMessage.current.value)
+        }
     }
 
     return (
@@ -30,14 +39,18 @@ const Dialogs: React.FC<DialogsType> = (props) => {
             <div className={s.messages}>
                 <div className={s.message}>
                     {message}
-                    {myMessage}
                 </div>
                 <div className={s.textArea_box}>
-                    <textarea ref={newMessage} className={s.textaria_style} placeholder={'Input you message'}
-                              cols={95}>
-                    </textarea>
+                    <textarea
+                        value={props.newMessageText}
+                        ref={newMessage}
+                        className={s.textaria_style}
+                        placeholder={'Input you message'}
+                        onChange={onMessageChange}
+                        cols={95}
+                    />
                     <span>
-                        <button onClick={addPost} className={s.textArea_box_button}>Send</button>
+                        <button onClick={addMessage} className={s.textArea_box_button}>Send</button>
                     </span>
 
                 </div>

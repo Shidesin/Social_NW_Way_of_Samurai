@@ -3,7 +3,6 @@ import {rerenderEntireTree} from '../render';
 export type MessageDataType = {
     id: number
     message: string
-    classMsg?: string
 }
 export type DialogDataType = {
     id: number
@@ -22,6 +21,7 @@ export type ProfilePageType = {
 export type DialogPageType ={
     dialogData: Array<DialogDataType>
     messageData: Array<MessageDataType>
+    newMessageText: string
 }
 export type friendsDataType = {
     id: number
@@ -54,7 +54,8 @@ let state: RootStateType = {
             {id: 1, message: 'Hi'},
             {id: 2, message: 'How is your it-kamasutra'},
             {id: 3, message: 'Yo'}
-        ]
+        ],
+        newMessageText: ''
     },
     sidebar: {
         friendsData: [
@@ -80,6 +81,21 @@ export let addPost = () => {
 
 export let updateNewPostText = (newText: string) => {
     state.profilePage.newPostText = newText;
+    rerenderEntireTree(state);
+}
+
+export let addMessage = () => {
+    let newMessage: MessageDataType = {
+        id: 3,
+        message: state.dialogPage.newMessageText
+    }
+    state.dialogPage.messageData.push(newMessage)
+    state.dialogPage.newMessageText = ''
+    rerenderEntireTree(state);
+}
+
+export let updateNewMessageText = (newMessage: string) => {
+    state.dialogPage.newMessageText = newMessage;
     rerenderEntireTree(state);
 }
 

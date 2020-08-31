@@ -1,7 +1,3 @@
-let rerenderEntireTree = (state: RootStateType) => {
-    console.log('state changed')
-}
-
 export type MessageDataType = {
     id: number
     message: string
@@ -38,7 +34,8 @@ export type RootStateType ={
     sidebar: sidebarType
 }
 
-let state: RootStateType = {
+let store: any = {
+    _state: {
     profilePage :{
         postData:[
             {id: 1, post: 'Hi, how are you?', CounterLike: 15},
@@ -66,43 +63,44 @@ let state: RootStateType = {
             {id: 3, name: 'Sveta', avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQFL5jonyCNC78_Ao6k1IXgS1JdSAFnJhR-bQ&usqp=CAU'}
         ]
     }
-
-
-};
-
-export const sudscribe = (observer: any) => {
-    rerenderEntireTree = observer
-}
-
-export const addPost = () => {
-    let newPost: PostDataType  = {
-        id: 5,
-        post: state.profilePage.newPostText,
-        CounterLike: 0
-    };
-    state.profilePage.postData.push(newPost);
-    state.profilePage.newPostText = '';
-    rerenderEntireTree(state);
-}
-
-export const updateNewPostText = (newText: string) => {
-    state.profilePage.newPostText = newText;
-    rerenderEntireTree(state);
-}
-
-export const addMessage = () => {
-    let newMessage: MessageDataType = {
-        id: 3,
-        message: state.dialogPage.newMessageText
+},
+    getState() {
+        return this._state;
+    },
+    _callSubscriber () {
+        console.log('state changed')
+    },
+    addPost () {
+        let newPost: PostDataType  = {
+            id: 5,
+            post: this._state.profilePage.newPostText,
+            CounterLike: 0
+        };
+        this._state.profilePage.postData.push(newPost);
+        this._state.profilePage.newPostText = '';
+        this._callSubscriber(this._state);
+    },
+    updateNewPostText (newText: string) {
+        debugger
+        this._state.profilePage.newPostText = newText;
+        this._callSubscriber(this._state);
+    },
+    addMessage  () {
+        let newMessage: MessageDataType = {
+            id: 3,
+            message: this._state.dialogPage.newMessageText
+        }
+        this._state.dialogPage.messageData.push(newMessage)
+        this._state.dialogPage.newMessageText = ''
+        this._callSubscriber(this._state);
+    },
+    updateNewMessageText (newMessage: string) {
+        this._state.dialogPage.newMessageText = newMessage;
+        this._callSubscriber(this._state);
+    },
+    sudscribe (observer: any) {
+        this._callSubscriber = observer
     }
-    state.dialogPage.messageData.push(newMessage)
-    state.dialogPage.newMessageText = ''
-    rerenderEntireTree(state);
 }
 
-export const updateNewMessageText = (newMessage: string) => {
-    state.dialogPage.newMessageText = newMessage;
-    rerenderEntireTree(state);
-}
-
-export default state;
+export default store;

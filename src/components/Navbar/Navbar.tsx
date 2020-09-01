@@ -11,8 +11,8 @@ type PropsType = {
 export const Navbar: React.FC<PropsType> = (props) => {
 
     let friends = props.friends.friendsData.map(f =>
-        <span  className={s.friends_box}>
-            <div>
+        <span key={f.id} className={s.friends_box}>
+            <div >
                 <img className={s.avatars_friend} src={f.avatar} alt="avatar"/>
             </div>
             {f.name}

@@ -1,24 +1,25 @@
 import * as serviceWorker from './serviceWorker';
-import store , {RootStateType} from './redux/state';
+import store from './redux/state';
 import ReactDOM from 'react-dom';
 import React from 'react';
 import App from './App';
 
-let rerenderEntireTree  = (state: RootStateType) => {
+
+let rerenderEntireTree  = () => {
     ReactDOM.render(
         <React.StrictMode>
-            <App state={state}
-                 addPost={store.addPost.bind(store)}
-                 updateNewPostText={store.updateNewPostText.bind(store)}
-                 addMessage={store.addMessage.bind(store)}
-                 updateNewMessageText={store.updateNewMessageText.bind(store)}
+            <App store={store}
+                 dispatch={store.dispatch.bind(store)}
+                 // updateNewPostText={store.updateNewPostText.bind(store)}
+                 // addMessage={store.addMessage.bind(store)}
+                 // updateNewMessageText={store.updateNewMessageText.bind(store)}
             />
         </React.StrictMode>,
         document.getElementById('root')
     );
 };
 
-rerenderEntireTree(store.getState());
+rerenderEntireTree();
 
 store.sudscribe(rerenderEntireTree);
 

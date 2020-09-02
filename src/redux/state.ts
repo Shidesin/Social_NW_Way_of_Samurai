@@ -34,7 +34,6 @@ export type RootStateType = {
     dialogPage: DialogPageType
     sidebar: sidebarType
 }
-
 export type StoreType = {
     _state: RootStateType;
     _callSubscriber: () => void
@@ -43,29 +42,42 @@ export type StoreType = {
     dispatch: (action:ActionTypes) => void
 }
 
-export type ActionTypes = AddPostActionType |
-    UpdateNewPostTextActionType |
-    AddMessageActionType |
-    UpdateNewMessageTextActionType
+export type ActionTypes =
+    ReturnType<typeof AddPostActionCreator> |
+    ReturnType<typeof onPostChangeActionCreator> |
+    ReturnType<typeof addMessageActionCreator> |
+    ReturnType<typeof onMessageChangeActionCreator>
 
-type AddPostActionType = {
-    type: 'ADD-POST'
-    // newPostText: string
+const ADD_POST = 'ADD-POST'
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const ADD_MESSAGE = 'ADD-MESSAGE';
+const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
+
+export const AddPostActionCreator = () => {
+    return {
+        type:ADD_POST
+    } as const
 }
 
-type UpdateNewPostTextActionType = {
-    type: 'UPDATE-NEW-POST-TEXT'
-    newText: string
+export const onPostChangeActionCreator =(text: string) => {
+    return {
+        type: UPDATE_NEW_POST_TEXT,
+        newText: text
+    }as const
 }
 
-type AddMessageActionType = {
-    type: 'ADD-MESSAGE'
-    // newMessageText: string
+export const addMessageActionCreator = () => {
+    return {
+        type: ADD_MESSAGE
+    } as const
 }
 
-type UpdateNewMessageTextActionType = {
-    type: 'UPDATE-NEW-MESSAGE-TEXT'
-    newMessage: string
+export const onMessageChangeActionCreator = (text: string) => {
+
+    return {
+        type: UPDATE_NEW_MESSAGE_TEXT,
+        newMessage: text
+    } as const
 }
 
 const store: StoreType = {

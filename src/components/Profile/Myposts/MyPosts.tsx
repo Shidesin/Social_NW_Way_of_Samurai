@@ -1,14 +1,12 @@
 import React from 'react';
 import stylecss from './MyPosts.module.css'
 import {Post} from './Post/Post';
-import {ActionTypes, PostDataType} from '../../../redux/state';
+import {ActionTypes, AddPostActionCreator, onPostChangeActionCreator, PostDataType} from '../../../redux/state';
 
 type PropsType = {
     dispatch: (action: ActionTypes ) => void
     postData: Array<PostDataType>
     newPostText: string
-    // updateNewPostText: (newText: string) => void
-    // addPost: (postMessageData: string) => void
 }
 
 export const MyPosts: React.FC<PropsType> = (props) => {
@@ -19,13 +17,14 @@ export const MyPosts: React.FC<PropsType> = (props) => {
 
     let addPost = () => {
         if (newPostElement.current) {
-            props.dispatch({type: 'ADD-POST' })
+            props.dispatch(AddPostActionCreator())
         }
     }
 
     let onPostChange = () => {
         if (newPostElement.current) {
-        props.dispatch({type: 'UPDATE-NEW-POST-TEXT', newText: newPostElement.current.value})
+            let newText = newPostElement.current.value
+        props.dispatch(onPostChangeActionCreator(newText))
     }}
     return (
         <div className={stylecss.postBlock}>

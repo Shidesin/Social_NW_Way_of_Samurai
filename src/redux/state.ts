@@ -1,3 +1,6 @@
+import profileReducer, {AddPostActionCreator, onPostChangeActionCreator} from './ProfilePage-Reducer';
+import dialogsReducer, {addMessageActionCreator, onMessageChangeActionCreator} from './DialogPage-Reducer';
+
 export type MessageDataType = {
     id: number
     message: string
@@ -48,37 +51,6 @@ export type ActionTypes =
     ReturnType<typeof addMessageActionCreator> |
     ReturnType<typeof onMessageChangeActionCreator>
 
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const ADD_MESSAGE = 'ADD-MESSAGE';
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
-
-export const AddPostActionCreator = () => {
-    return {
-        type:ADD_POST
-    } as const
-}
-
-export const onPostChangeActionCreator =(text: string) => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newText: text
-    }as const
-}
-
-export const addMessageActionCreator = () => {
-    return {
-        type: ADD_MESSAGE
-    } as const
-}
-
-export const onMessageChangeActionCreator = (text: string) => {
-
-    return {
-        type: UPDATE_NEW_MESSAGE_TEXT,
-        newMessage: text
-    } as const
-}
 
 const store: StoreType = {
     _state: {
@@ -146,66 +118,11 @@ const store: StoreType = {
     },
 
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            debugger
-            let newPost: PostDataType = {
-                id: 5,
-                post: this._state.profilePage.newPostText ,
-                CounterLike: 0
-            };
-            this._state.profilePage.postData.push(newPost);
-            this._state.profilePage.newPostText = '';
-            this._callSubscriber();
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            debugger
-            this._state.profilePage.newPostText = action.newText;
-            this._callSubscriber();
-        } else if (action.type === 'ADD-MESSAGE') {
-            debugger
-            let newMessage: MessageDataType = {
-                id: 3,
-                message: this._state.dialogPage.newMessageText
-            }
-            this._state.dialogPage.messageData.push(newMessage)
-            this._state.dialogPage.newMessageText = ''
-            this._callSubscriber();
-        } else if (action.type === 'UPDATE-NEW-MESSAGE-TEXT') {
-            debugger
-            this._state.dialogPage.newMessageText = action.newMessage;
-            this._callSubscriber();
-        }
 
+        this._state.profilePage = profileReducer(this._state.profilePage,action);
+        this._state.dialogPage = dialogsReducer(this._state.dialogPage,action);
+        this._callSubscriber()
     }
-    // addPost () {
-    //     let newPost: PostDataType  = {
-    //         id: 5,
-    //         post: this._state.profilePage.newPostText,
-    //         CounterLike: 0
-    //     };
-    //     this._state.profilePage.postData.push(newPost);
-    //     this._state.profilePage.newPostText = '';
-    //     this._callSubscriber(this._state);
-    // },
-
-    // updateNewPostText (newText: string) {
-    //     this._state.profilePage.newPostText = newText;
-    //     this._callSubscriber(this._state);
-    // },
-
-    // addMessage  () {
-    //     let newMessage: MessageDataType = {
-    //         id: 3,
-    //         message: this._state.dialogPage.newMessageText
-    //     }
-    //     this._state.dialogPage.messageData.push(newMessage)
-    //     this._state.dialogPage.newMessageText = ''
-    //     this._callSubscriber(this._state);
-    // },
-
-    // updateNewMessageText (newMessage: string) {
-    //     this._state.dialogPage.newMessageText = newMessage;
-    //     this._callSubscriber(this._state);
-    // },
 }
 
 export default store;

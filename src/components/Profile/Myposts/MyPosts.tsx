@@ -1,7 +1,9 @@
 import React from 'react';
 import stylecss from './MyPosts.module.css'
 import {Post} from './Post/Post';
-import {ActionTypes, AddPostActionCreator, onPostChangeActionCreator, PostDataType} from '../../../redux/state';
+import {ActionTypes, PostDataType} from '../../../redux/state';
+import {AddPostActionCreator, onPostChangeActionCreator} from '../../../redux/ProfilePage-Reducer';
+
 
 type PropsType = {
     dispatch: (action: ActionTypes ) => void

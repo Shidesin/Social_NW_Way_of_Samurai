@@ -41,7 +41,7 @@ export type StoreType = {
     _state: RootStateType;
     _callSubscriber: () => void
     getState: () => RootStateType
-    sudscribe: (observer: () => void) => void
+    subscribe: (observer: () => void) => void
     dispatch: (action:ActionTypes) => void
 }
 
@@ -113,7 +113,7 @@ const store: StoreType = {
         return this._state;
     },
 
-    sudscribe(observer) {
+    subscribe(observer) {
         this._callSubscriber = observer
     },
 

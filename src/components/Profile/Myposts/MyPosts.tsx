@@ -1,7 +1,7 @@
 import React from 'react';
 import stylecss from './MyPosts.module.css'
 import {Post} from './Post/Post';
-import {ActionTypes, PostDataType} from '../../../redux/state';
+import {ActionTypes, PostDataType} from '../../../redux/store';
 import {AddPostActionCreator, onPostChangeActionCreator} from '../../../redux/ProfilePage-Reducer';
 
 

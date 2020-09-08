@@ -1,7 +1,7 @@
 import React from 'react';
 import stylecss from './Navbar.module.css'
 import {NavLink} from 'react-router-dom';
-import {sidebarType} from '../../redux/state';
+import {sidebarType} from '../../redux/store';
 import s from './../Dialogs/Dialogs.module.css'
 
 type PropsType = {

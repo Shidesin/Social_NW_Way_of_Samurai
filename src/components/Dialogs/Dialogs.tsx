@@ -2,13 +2,13 @@ import React from 'react';
 import s from './Dialogs.module.css'
 import DialogItem from './DialogItem/DialogsItem';
 import Message from './Message/Message';
-import {ActionTypes, DialogPageType} from '../../redux/store';
-import {addMessageActionCreator, onMessageChangeActionCreator} from '../../redux/DialogPage-Reducer';
+import {DialogPageType} from '../../redux/store';
 
 type DialogsType = {
+    addMessage: () => void
     dialogPage: DialogPageType
     newMessageText: string
-    dispatch: (action: ActionTypes ) => void
+    updateNewMessageText:(newMessage: string) => void
 }
 
 const Dialogs: React.FC<DialogsType> = (props) => {
@@ -21,14 +21,14 @@ const Dialogs: React.FC<DialogsType> = (props) => {
 
     let addMessage = () => {
         if(newMessage.current){
-            props.dispatch(addMessageActionCreator())
+            props.addMessage()
         }
     }
 
     let onMessageChange = () => {
         if(newMessage.current){
             let newMessageText = newMessage.current.value;
-            props.dispatch(onMessageChangeActionCreator(newMessageText))
+            props.updateNewMessageText(newMessageText)
         }
     }
 

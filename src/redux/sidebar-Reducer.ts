@@ -1,7 +1,9 @@
-import {ActionTypes, sidebarType} from './store';
+import {ActionTypes, friendsDataType} from './store';
 
 
-export type initialStatetype = typeof initialState
+
+
+export type initialStateSidebarType = typeof initialState
 
 let initialState = {
     friendsData: [
@@ -20,10 +22,10 @@ let initialState = {
             name: 'Sveta',
             avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQFL5jonyCNC78_Ao6k1IXgS1JdSAFnJhR-bQ&usqp=CAU'
         }
-    ]
+    ] as Array<friendsDataType>
 }
 
-const sidebarReducer = (state: sidebarType = initialState, action: ActionTypes): initialStatetype => {
+const sidebarReducer = (state: initialStateSidebarType = initialState, action: ActionTypes): initialStateSidebarType => {
     return state
 }
 

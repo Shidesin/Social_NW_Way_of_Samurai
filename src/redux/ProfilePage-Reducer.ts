@@ -1,49 +1,54 @@
-import {ActionTypes, PostDataType, ProfilePageType} from './store';
+import {ActionTypes, PostDataType} from './store';
 
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 
-export type initialStatetype = typeof initialState
 
- let initialState = {
-     postData: [
-         {id: 1, post: 'Hi, how are you?', CounterLike: 15},
-         {id: 2, post: 'It\'s my first post!', CounterLike: 20}
-     ],
-     newPostText: ''
- }
+let initialState = {
+    postData: [
+        {id: 1, post: 'Hi, how are you?', CounterLike: 15},
+        {id: 2, post: 'It\'s my first post!', CounterLike: 20}
+    ] as Array<PostDataType>,
+    newPostText: '' as string
+}
 
+export type initialStateProfileType = typeof initialState
 
-const profileReducer = (state: ProfilePageType = initialState, action: ActionTypes): initialStatetype => {
+const profileReducer = (state: initialStateProfileType = initialState, action: ActionTypes): initialStateProfileType => {
+
     switch (action.type) {
-        case ADD_POST:
-            let newPost: PostDataType = {
-                id: 5,
-                post: state.newPostText ,
-                CounterLike: 0
+        case ADD_POST: {
+            let newPostText = state.newPostText
+            return {
+                ...state,
+                postData: [...state.postData, {
+                    id: 5,
+                    post: newPostText,
+                    CounterLike: 0
+                }],
+                newPostText: ''
             };
-            state.postData.push(newPost);
-            state.newPostText = '';
-            return state;
-        case UPDATE_NEW_POST_TEXT:
-            state.newPostText = action.newText;
-            return state;
+        }
+        case UPDATE_NEW_POST_TEXT: {
+            return {...state, newPostText: action.newText};
+        }
         default:
             return state;
+
     }
 };
 
 export const AddPostActionCreator = () => {
     return {
-        type:ADD_POST
+        type: ADD_POST
     } as const
 }
 
-export const onPostChangeActionCreator =(text: string) => {
+export const onPostChangeActionCreator = (text: string) => {
     return {
         type: UPDATE_NEW_POST_TEXT,
         newText: text
-    }as const
+    } as const
 }
 
 export default profileReducer;

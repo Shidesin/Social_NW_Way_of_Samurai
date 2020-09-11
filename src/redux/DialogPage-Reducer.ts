@@ -1,4 +1,4 @@
-import {ActionTypes, DialogPageType, MessageDataType} from './store';
+import {ActionTypes, DialogDataType, MessageDataType} from './store';
 
 const ADD_MESSAGE = 'ADD-MESSAGE';
 const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
@@ -20,41 +20,48 @@ let initialState = {
             name: 'Sveta',
             avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQFL5jonyCNC78_Ao6k1IXgS1JdSAFnJhR-bQ&usqp=CAU'
         }
-    ],
+    ] as Array<DialogDataType>,
     messageData: [
         {id: 1, message: 'Hi'},
         {id: 2, message: 'How is your it-kamasutra'},
         {id: 3, message: 'Yo'}
-    ],
-    newMessageText: ''
+    ] as Array<MessageDataType>,
+    newMessageText: '' as string
 }
 
-export type initialStatetype = typeof initialState
+export type initialStateDialogType = typeof initialState;
 
-const dialogsReducer = (state: DialogPageType = initialState, action: ActionTypes) : initialStatetype=> {
+const dialogsReducer = (state: initialStateDialogType = initialState, action: ActionTypes): initialStateDialogType => {
+
+
     switch (action.type) {
-        case ADD_MESSAGE:
-            let newMessage: MessageDataType = {
-                id: 3,
-                message: state.newMessageText
-            }
-            state.messageData.push(newMessage)
-            state.newMessageText = ''
-            return state;
-        case UPDATE_NEW_MESSAGE_TEXT:
-            state.newMessageText = action.newMessage;
-            return state;
+        case ADD_MESSAGE: {
+            let newMessageBody = state.newMessageText
+            return {
+                ...state,
+                messageData: [...state.messageData, {id: 3, message: newMessageBody}],
+                newMessageText: ''
+            };
+        }
+        case UPDATE_NEW_MESSAGE_TEXT: {
+            return {...state, newMessageText: action.newMessage};
+        }
         default:
             return state;
     }
 };
+
+type onMessageChangeActionCreatorType = {
+    type: typeof UPDATE_NEW_MESSAGE_TEXT
+    newMessage: string
+}
 
 export const addMessageActionCreator = () => {
     return {
         type: ADD_MESSAGE
     } as const
 };
-export const onMessageChangeActionCreator = (text: string) => {
+export const onMessageChangeActionCreator = (text: string): onMessageChangeActionCreatorType => {
     return {
         type: UPDATE_NEW_MESSAGE_TEXT,
         newMessage: text

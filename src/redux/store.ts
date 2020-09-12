@@ -1,14 +1,10 @@
 import  {AddPostActionCreator, onPostChangeActionCreator} from './ProfilePage-Reducer';
 import  {addMessageActionCreator, onMessageChangeActionCreator} from './DialogPage-Reducer';
+import {followAC, setUsersAC, unFollowAC} from './Users-Reducer';
 
 export type MessageDataType = {
     id: number
     message: string
-}
-export type DialogDataType = {
-    id: number
-    name: string
-    avatar: string
 }
 export type PostDataType = {
     id: number
@@ -16,11 +12,17 @@ export type PostDataType = {
     CounterLike: number
 }
 
+export type DialogDataType = {
+    id: number
+    name: string
+    avatar: string
+}
 export type DialogPageType = {
     dialogData: Array<DialogDataType>
     messageData: Array<MessageDataType>
     newMessageText: string
 }
+
 export type friendsDataType = {
     id: number
     name: string
@@ -29,6 +31,23 @@ export type friendsDataType = {
 export type sidebarType = {
     friendsData: Array<friendsDataType>
 }
+
+export type UsersPageType = {
+    users: Array<UsersDataType>
+}
+export type UsersDataType = {
+    id: number
+    photoURL: string
+    followed: boolean
+    fullName: string
+    status: string
+    location: usersLocationType
+}
+export type usersLocationType = {
+    city: string
+    country: string
+}
+
 // export type RootStateType = {
 //     profilePage: ProfilePageType
 //     dialogPage: DialogPageType
@@ -44,7 +63,10 @@ export type ActionTypes =
     ReturnType<typeof AddPostActionCreator> |
     ReturnType<typeof onPostChangeActionCreator> |
     ReturnType<typeof addMessageActionCreator> |
-    ReturnType<typeof onMessageChangeActionCreator>
+    ReturnType<typeof onMessageChangeActionCreator>|
+    ReturnType<typeof followAC>|
+    ReturnType<typeof unFollowAC>|
+    ReturnType<typeof setUsersAC>
 
 // type StoreType = {
 //     _state: RootStateType;

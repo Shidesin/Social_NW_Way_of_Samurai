@@ -4,12 +4,12 @@ import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {ActionTypes, UsersDataType} from '../../redux/store';
 import {
-    followAC,
-    setCurrentPageAC,
-    setIsFetchingAC,
-    setTotalUsersCountAC,
-    setUsersAC,
-    unFollowAC
+    follow,
+    setCurrentPage,
+    setIsFetching,
+    setTotalUsersCount,
+    setUsers,
+    unFollow
 } from '../../redux/Users-Reducer';
 import {Users} from './Users';
 import {Preloader} from '../Preloader/Preloader';
@@ -58,7 +58,7 @@ class UsersContainer extends React.Component<UsersPropsType, AppStateType> {
 
     render() {
         return <>
-            {this.props.isFetching? <Preloader /> : null}
+            {this.props.isFetching ? <Preloader/> : null}
             <Users users={this.props.state}
                    currentPage={this.props.currentPage}
                    pageSize={this.props.pageSize}
@@ -83,29 +83,29 @@ let mapStateToProps = (state: AppStateType) => {
 }
 
 
-let mapDispatchToProps = (dispatch: (action: ActionTypes) => void) => {
-    return {
-        follow: (userID: number) => {
-            console.log('followAC')
-            dispatch(followAC(userID))
-        },
-        unFollow: (userID: number) => {
-            console.log('unFollowAC')
-            dispatch(unFollowAC(userID))
-        },
-        setUsers: (users: Array<UsersDataType>) => {
-            dispatch(setUsersAC(users))
-        },
-        setTotalUsersCount: (totalCount: number) => {
-            dispatch(setTotalUsersCountAC(totalCount))
-        },
-        setCurrentPage: (pageNumber: number) => {
-            dispatch(setCurrentPageAC(pageNumber))
-        },
-        setIsFetching: (isFetching: boolean) => {
-            dispatch(setIsFetchingAC(isFetching))
-        }
-    }
-}
+// let mapDispatchToProps = (dispatch: (action: ActionTypes) => void) => {
+//     return {
+//         follow: (userID: number) => {
+//             console.log('followAC')
+//             dispatch(followAC(userID))
+//         },
+//         unFollow: (userID: number) => {
+//             console.log('unFollowAC')
+//             dispatch(unFollowAC(userID))
+//         },
+//         setUsers: (users: Array<UsersDataType>) => {
+//             dispatch(setUsersAC(users))
+//         },
+//         setTotalUsersCount: (totalCount: number) => {
+//             dispatch(setTotalUsersCountAC(totalCount))
+//         },
+//         setCurrentPage: (pageNumber: number) => {
+//             dispatch(setCurrentPageAC(pageNumber))
+//         },
+//         setIsFetching: (isFetching: boolean) => {
+//             dispatch(setIsFetchingAC(isFetching))
+//         }
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default connect(mapStateToProps, {follow, unFollow, setUsers, setTotalUsersCount, setCurrentPage, setIsFetching})(UsersContainer);

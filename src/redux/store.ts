@@ -1,12 +1,12 @@
 import  {AddPostActionCreator, onPostChangeActionCreator} from './ProfilePage-Reducer';
 import  {addMessageActionCreator, onMessageChangeActionCreator} from './DialogPage-Reducer';
 import {
-    followAC,
-    setCurrentPageAC,
-    setIsFetchingAC,
-    setTotalUsersCountAC,
-    setUsersAC,
-    unFollowAC
+    follow,
+    setCurrentPage,
+    setIsFetching,
+    setTotalUsersCount,
+    setUsers,
+    unFollow
 } from './Users-Reducer';
 
 export type MessageDataType = {
@@ -74,12 +74,12 @@ export type ActionTypes =
     ReturnType<typeof onPostChangeActionCreator> |
     ReturnType<typeof addMessageActionCreator> |
     ReturnType<typeof onMessageChangeActionCreator>|
-    ReturnType<typeof followAC>|
-    ReturnType<typeof unFollowAC>|
-    ReturnType<typeof setUsersAC>|
-    ReturnType<typeof setTotalUsersCountAC>|
-    ReturnType<typeof setCurrentPageAC>|
-    ReturnType<typeof setIsFetchingAC>
+    ReturnType<typeof follow>|
+    ReturnType<typeof unFollow>|
+    ReturnType<typeof setUsers>|
+    ReturnType<typeof setTotalUsersCount>|
+    ReturnType<typeof setCurrentPage>|
+    ReturnType<typeof setIsFetching>
 
 // type StoreType = {
 //     _state: RootStateType;

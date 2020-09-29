@@ -1,68 +1,33 @@
 import React from 'react';
 import styles from './Users.module.css'
-import {UsersPageType} from '../../redux/store';
+import {UsersDataType, UsersPageType} from '../../redux/store';
+import axios from 'axios'
+import {GetUsersItems} from './UsersC';
 
 type UsersPropsType = {
-    state: UsersPageType
+    state: Array<UsersDataType>
     follow: (userID: number) => void
     unFollow: (userID: number) => void
-    setUsers: (users: UsersPageType) => void
+    setUsers: (users: Array<UsersDataType>) => void
 }
 
  export const Users = (props: UsersPropsType) => {
 
-     // if(props.setUsers.length === 0) {
-     //     props.setUsers([
-     //         {
-     //             id: 1,
-     //             photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTTrtbQWAUbo97OQOHKopnMNwKh5lDBnlzpNw&usqp=CAU',
-     //             followed: true,
-     //             fullName: 'Dmitry',
-     //             status: 'I am a boss',
-     //             location: {city: 'Minsk', country: 'Belarus'}
-     //         },
-     //         {
-     //             id: 2,
-     //             photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTTrtbQWAUbo97OQOHKopnMNwKh5lDBnlzpNw&usqp=CAU',
-     //             followed: false,
-     //             fullName: 'Georgy',
-     //             status: 'I am a student',
-     //             location: {city: 'Moscow', country: 'Russia'}
-     //         },
-     //         {
-     //             id: 3,
-     //             photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTTrtbQWAUbo97OQOHKopnMNwKh5lDBnlzpNw&usqp=CAU',
-     //             followed: true,
-     //             fullName: 'Alex',
-     //             status: 'I am a manager',
-     //             location: {city: 'London', country: 'UK'}
-     //         },
-     //         {
-     //             id: 4,
-     //             photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTTrtbQWAUbo97OQOHKopnMNwKh5lDBnlzpNw&usqp=CAU',
-     //             followed: false,
-     //             fullName: 'Oleg',
-     //             status: 'I am a teacher',
-     //             location: {city: 'Berlin', country: 'Germany'}
-     //         },
-     //         {
-     //             id: 5,
-     //             photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTTrtbQWAUbo97OQOHKopnMNwKh5lDBnlzpNw&usqp=CAU',
-     //             followed: true,
-     //             fullName: 'Poul',
-     //             status: 'I am a artist',
-     //             location: {city: 'Paris', country: 'France'}
-     //         }
-     //     ])
-     // }
+    if (props.state.length === 0){
+        axios.get<GetUsersItems>('https://social-network.samuraijs.com/api/1.0/users')
+            .then(response => {
+                props.setUsers(response.data.items)
+
+            })
+    }
 
     return (
         <div>
-            {props.state.users.map(u =>
+            {props.state.map(u =>
                 <div key={u.id}>
                     <span>
                         <div>
-                            <img className={styles.userPhoto} src={u.photoURL} alt="avatar"/>
+                            <img className={styles.userPhoto} src={u.photos.small} alt="avatar"/>
                         </div>
                         <div>
                             {u.followed ?
@@ -73,12 +38,12 @@ type UsersPropsType = {
                     </span>
                     <span>
                         <span>
-                            <div>{u.fullName }</div>
+                            <div>{u.name }</div>
                             <div>{u.status}</div>
                         </span>
                         <span>
-                            <div>{u.location.country}</div>
-                            <div>{u.location.city}</div>
+                            <div>{'u.location.country'}</div>
+                            <div>{'u.location.city'}</div>
                         </span>
                     </span>
                 </div>

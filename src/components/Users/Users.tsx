@@ -1,44 +1,62 @@
 import React from 'react';
 import styles from './Users.module.css'
-import {UsersDataType, UsersPageType} from '../../redux/store';
-import axios from 'axios'
-import {GetUsersItems} from './UsersC';
+import userPhoto from '../../assets/images/user_avatar.jpg';
+import {UsersDataType} from '../../redux/store';
 
 type UsersPropsType = {
-    state: Array<UsersDataType>
-    follow: (userID: number) => void
-    unFollow: (userID: number) => void
-    setUsers: (users: Array<UsersDataType>) => void
+    users: Array<UsersDataType>;
+    currentPage: number;
+    pageSize: number;
+    totalUsersCount: number;
+    follow: (userID: number) => void;
+    unFollow: (userID: number) => void;
+    onPageChanged: (pageNumber: number) => void;
 }
 
- export const Users = (props: UsersPropsType) => {
+export const Users = (props: UsersPropsType) => {
 
-    if (props.state.length === 0){
-        axios.get<GetUsersItems>('https://social-network.samuraijs.com/api/1.0/users')
-            .then(response => {
-                props.setUsers(response.data.items)
-
-            })
+    let pagesCount: number = Math.ceil(props.totalUsersCount / props.pageSize)
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i)
     }
-
     return (
         <div>
-            {props.state.map(u =>
-                <div key={u.id}>
+            <div>
+                {pages.map(p => {
+                    return (
+                        <span key={p}
+                              onClick={() => {
+                                  props.onPageChanged(p);
+                              }}
+                              className={props.currentPage === p ? styles.selectedPage : styles.page}>
+                                {p}
+                            </span>
+                    )
+                })}
+            </div>
+            {
+                props.users.map(u =>
+                    <div key={u.id}>
                     <span>
                         <div>
-                            <img className={styles.userPhoto} src={u.photos.small} alt="avatar"/>
+                            <img className={styles.userPhoto}
+                                 src={u.photos.small !== null ? u.photos.small : userPhoto} alt="avatar"/>
                         </div>
                         <div>
                             {u.followed ?
-                                <button onClick={ () => {props.unFollow(u.id)} }>UnFollow</button> :
-                                <button onClick={ () => {props.follow(u.id)} }>Follow</button>
+                                <button onClick={() => {
+                                    props.unFollow(u.id)
+                                }}>UnFollow</button> :
+                                <button onClick={() => {
+                                    props.follow(u.id)
+                                }}>Follow</button>
                             }
                         </div>
                     </span>
-                    <span>
                         <span>
-                            <div>{u.name }</div>
+                        <span>
+                            <div>{u.name}</div>
                             <div>{u.status}</div>
                         </span>
                         <span>
@@ -46,8 +64,10 @@ type UsersPropsType = {
                             <div>{'u.location.city'}</div>
                         </span>
                     </span>
-                </div>
-            )}
+                    </div>
+                )}
         </div>
-    )
+    );
+
+
 }

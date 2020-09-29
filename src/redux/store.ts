@@ -1,6 +1,13 @@
 import  {AddPostActionCreator, onPostChangeActionCreator} from './ProfilePage-Reducer';
 import  {addMessageActionCreator, onMessageChangeActionCreator} from './DialogPage-Reducer';
-import {followAC, setUsersAC, unFollowAC} from './Users-Reducer';
+import {
+    followAC,
+    setCurrentPageAC,
+    setIsFetchingAC,
+    setTotalUsersCountAC,
+    setUsersAC,
+    unFollowAC
+} from './Users-Reducer';
 
 export type MessageDataType = {
     id: number
@@ -34,6 +41,10 @@ export type sidebarType = {
 
 export type UsersPageType = {
     users: Array<UsersDataType>
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    isFetching: boolean
 }
 export type UsersDataType = {
     id: number
@@ -65,7 +76,10 @@ export type ActionTypes =
     ReturnType<typeof onMessageChangeActionCreator>|
     ReturnType<typeof followAC>|
     ReturnType<typeof unFollowAC>|
-    ReturnType<typeof setUsersAC>
+    ReturnType<typeof setUsersAC>|
+    ReturnType<typeof setTotalUsersCountAC>|
+    ReturnType<typeof setCurrentPageAC>|
+    ReturnType<typeof setIsFetchingAC>
 
 // type StoreType = {
 //     _state: RootStateType;

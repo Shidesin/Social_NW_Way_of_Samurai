@@ -1,4 +1,4 @@
-import  {AddPostActionCreator, onPostChangeActionCreator} from './ProfilePage-Reducer';
+import {AddPostActionCreator, onPostChangeActionCreator, setUserProfile} from './ProfilePage-Reducer';
 import  {addMessageActionCreator, onMessageChangeActionCreator} from './DialogPage-Reducer';
 import {
     follow,
@@ -58,16 +58,12 @@ export type photosType = {
     large: string
 }
 
-// export type RootStateType = {
-//     profilePage: ProfilePageType
-//     dialogPage: DialogPageType
-//     sidebar: sidebarType
-// }
-//
-// export type ProfilePageType = {
-//     postData: Array<PostDataType>
-//     newPostText: string
-// }
+
+export type ProfilePageType = {
+    postData: Array<PostDataType>
+    newPostText: string
+    profile: any
+}
 
 export type ActionTypes =
     ReturnType<typeof AddPostActionCreator> |
@@ -79,7 +75,8 @@ export type ActionTypes =
     ReturnType<typeof setUsers>|
     ReturnType<typeof setTotalUsersCount>|
     ReturnType<typeof setCurrentPage>|
-    ReturnType<typeof setIsFetching>
+    ReturnType<typeof setIsFetching> |
+    ReturnType<typeof setUserProfile>
 
 // type StoreType = {
 //     _state: RootStateType;

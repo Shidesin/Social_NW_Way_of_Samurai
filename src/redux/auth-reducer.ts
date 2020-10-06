@@ -32,7 +32,6 @@ type initialStateUsersType = typeof initialState
 
 
 const authReducer = (state: initialStateUsersType = initialState , action: ActionTypes): initialStateUsersType  => {
-    debugger
     switch (action.type) {
         case SET_USER_DATA:
             return <initialStateUsersType>{

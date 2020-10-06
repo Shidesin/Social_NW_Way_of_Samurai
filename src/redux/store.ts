@@ -8,6 +8,7 @@ import {
     setUsers,
     unFollow
 } from './Users-Reducer';
+import {setAuthUserData} from './auth-reducer';
 
 export type MessageDataType = {
     id: number
@@ -66,6 +67,7 @@ export type ProfilePageType = {
 }
 
 export type ActionTypes =
+    ReturnType<typeof setAuthUserData> |
     ReturnType<typeof AddPostActionCreator> |
     ReturnType<typeof onPostChangeActionCreator> |
     ReturnType<typeof addMessageActionCreator> |
@@ -77,6 +79,7 @@ export type ActionTypes =
     ReturnType<typeof setCurrentPage>|
     ReturnType<typeof setIsFetching> |
     ReturnType<typeof setUserProfile>
+
 
 // type StoreType = {
 //     _state: RootStateType;

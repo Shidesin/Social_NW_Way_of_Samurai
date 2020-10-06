@@ -7,9 +7,15 @@ import {connect} from 'react-redux';
 import {setUserProfile} from '../../redux/ProfilePage-Reducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 
-type ProfilePropsType = {
-    setUserProfile: (profile: GetProfileItems) => void
-    profile: GetProfileItems
+
+export type GetProfileItems = {
+    aboutMe: string | null
+    contacts: contactsType
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string | null,
+    fullName: string | null,
+    userId: number,
+    photos: photosType
 }
 
 type contactsType = {
@@ -23,14 +29,12 @@ type contactsType = {
     mainLink: string | null
 }
 
-export type GetProfileItems = {
-    aboutMe: string | null
-    contacts: contactsType
-    lookingForAJob: boolean,
-    lookingForAJobDescription: string | null,
-    fullName: string | null,
-    userId: number,
-    photos: photosType
+type MapStatePropsType = {
+    profile: GetProfileItems
+}
+
+type MapDispatchPropsType = {
+    setUserProfile: (profile: GetProfileItems) => void
 }
 
 type PathParamsType = {
@@ -38,7 +42,7 @@ type PathParamsType = {
 }
 
 
-class ProfileContainer extends React.Component <ProfilePropsType & RouteComponentProps<PathParamsType>> {
+class ProfileContainer extends React.Component <MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId
@@ -56,7 +60,7 @@ class ProfileContainer extends React.Component <ProfilePropsType & RouteComponen
     }
 }
 
-let mapStateToProps = (state: AppStateType) => ({
+let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     profile: state.profilePage.profile
 })
 

@@ -3,7 +3,7 @@ import styles from './Users.module.css'
 import userPhoto from '../../assets/images/user_avatar.jpg';
 import {UsersDataType} from '../../redux/store';
 import {NavLink} from 'react-router-dom';
-import axios from 'axios';
+import {UserAPI} from '../../api/api';
 
 type UsersPropsType = {
     users: Array<UsersDataType>;
@@ -15,7 +15,7 @@ type UsersPropsType = {
     onPageChanged: (pageNumber: number) => void;
 }
 
-type GetFollowItems = {
+export type GetFollowItems = {
     data: object
     fieldsErrors: string[]
     messages: string[]
@@ -57,41 +57,24 @@ export const Users = (props: UsersPropsType) => {
                         <div>
                             {u.followed ?
                                 <button onClick={() => {
-
-                                    axios.delete<GetFollowItems>(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                                        withCredentials: true,
-                                        headers: {
-                                            "API-KEY" : "8ec03155-8ce5-469f-8e80-164464cd89ef"
-                                        }
-                                    })
-                                        .then(response => {
-                                            debugger
-                                            if (response.data.resultCode === 0) {
+                                    UserAPI.deleteUser(u.id)
+                                        .then(data => {
+                                            if (data.resultCode === 0) {
                                                 props.unFollow(u.id);
                                             }
                                         });
 
 
-
-
-                                }}>UnFollow</button> :
+                                }}>UnFollow</button>
+                                :
 
                                 <button onClick={() => {
-
-
-                                    axios.post<GetFollowItems>(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
-                                        withCredentials: true,
-                                        headers: {
-                                            "API-KEY" : "8ec03155-8ce5-469f-8e80-164464cd89ef"
-                                        }
-                                    })
-                                        .then(response => {
-                                            debugger
-                                            if (response.data.resultCode === 0) {
+                                    UserAPI.postUser(u.id)
+                                        .then(data => {
+                                            if (data.resultCode === 0) {
                                                 props.follow(u.id)
                                             }
                                         });
-
 
                                 }}>Follow</button>
                             }
@@ -102,15 +85,9 @@ export const Users = (props: UsersPropsType) => {
                             <div>{u.name}</div>
                             <div>{u.status}</div>
                         </span>
-                        <span>
-                            <div>{'u.location.country'}</div>
-                            <div>{'u.location.city'}</div>
-                        </span>
                     </span>
                     </div>
                 )}
         </div>
     );
-
-
 }

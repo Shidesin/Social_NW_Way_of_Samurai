@@ -1,18 +1,11 @@
 import React from 'react';
-import axios from 'axios'
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
-import { UsersDataType} from '../../redux/store';
-import {
-    follow,
-    setCurrentPage,
-    setIsFetching,
-    setTotalUsersCount,
-    setUsers,
-    unFollow
-} from '../../redux/Users-Reducer';
+import {UsersDataType} from '../../redux/store';
+import {follow, setCurrentPage, setIsFetching, setTotalUsersCount, setUsers, unFollow} from '../../redux/Users-Reducer';
 import {Users} from './Users';
 import {Preloader} from '../Preloader/Preloader';
+import {UserAPI} from '../../api/api';
 
 
 type UsersPropsType = {
@@ -38,25 +31,21 @@ class UsersContainer extends React.Component<UsersPropsType, AppStateType> {
 
     componentDidMount() {
         this.props.setIsFetching(true)
-        axios.get<GetUsersItems>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
-            withCredentials: true
-        })
-            .then(response => {
+        UserAPI.getUsers(this.props.currentPage, this.props.pageSize)
+            .then(data => {
                 this.props.setIsFetching(false)
-                this.props.setUsers(response.data.items);
-                this.props.setTotalUsersCount(response.data.totalCount)
+                this.props.setUsers(data.items);
+                this.props.setTotalUsersCount(data.totalCount)
             })
     }
 
     onPageChanged = (pageNumber: number) => {
         this.props.setIsFetching(true)
         this.props.setCurrentPage(pageNumber);
-        axios.get<GetUsersItems>(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`, {
-            withCredentials: true
-        })
-            .then(response => {
+        UserAPI.getUsers(pageNumber, this.props.pageSize)
+            .then(data => {
                 this.props.setIsFetching(false)
-                this.props.setUsers(response.data.items)
+                this.props.setUsers(data.items)
             })
     }
 
@@ -87,5 +76,11 @@ let mapStateToProps = (state: AppStateType) => {
 }
 
 
-
-export default connect(mapStateToProps, {follow, unFollow, setUsers, setTotalUsersCount, setCurrentPage, setIsFetching})(UsersContainer);
+export default connect(mapStateToProps, {
+    follow,
+    unFollow,
+    setUsers,
+    setTotalUsersCount,
+    setCurrentPage,
+    setIsFetching
+})(UsersContainer);

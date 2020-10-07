@@ -4,9 +4,9 @@ const SET_USER_DATA = 'SET_USER_DATA';
 
 export type GetAuthItemsType = {
     data: DataMeType
-    messages: string[]
-    fieldsErrors: string[]
-    resultCode: number
+    messages: string[] | null
+    fieldsErrors: string[] | null
+    resultCode: number | null
 }
 
 export type DataMeType ={
@@ -15,26 +15,30 @@ export type DataMeType ={
     login: string | undefined
 }
 
-let initialState = {
+interface InitialStateType extends GetAuthItemsType {
+    isFetching: boolean,
+    isAuth: boolean
+}
+
+
+let initialState: InitialStateType = {
     data: {
         email: undefined,
         id: null,
         login: undefined
     },
-    isFetching: false,
-    isAuth: false,
     messages: null,
     fieldsErrors: null,
-    resultCode: null
+    resultCode: null,
+    isFetching: false,
+    isAuth: false,
+
 }
 
-type initialStateUsersType = typeof initialState
-
-
-const authReducer = (state: initialStateUsersType = initialState , action: ActionTypes): initialStateUsersType  => {
+const authReducer = (state: InitialStateType = initialState , action: ActionTypes): InitialStateType  => {
     switch (action.type) {
         case SET_USER_DATA:
-            return <initialStateUsersType>{
+            return {
                 ...state,
                 data: {...action.data},
                 isAuth: true

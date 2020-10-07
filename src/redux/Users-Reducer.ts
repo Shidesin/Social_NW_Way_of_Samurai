@@ -6,6 +6,7 @@ const UNFOLLOW = 'UNFOLLOW';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const TOGGLE_iS_FETCHING = 'TOGGLE_iS_FETCHING'
+const TOGGLE_iS_FOLLOWING_PROGRESS = 'TOGGLE_iS_FOLLOWING_PROGRESS'
 
 
 let initialState: UsersPageType = {
@@ -14,18 +15,19 @@ let initialState: UsersPageType = {
     pageSize: 25,
     currentPage: 1,
     isFetching: false,
+    followingProgress: []
 }
 
 // type initialStateUsersType = typeof initialState
 
 
-const usersReducer = (state: UsersPageType = initialState , action: ActionTypes): UsersPageType   => {
+const usersReducer = (state: UsersPageType = initialState, action: ActionTypes): UsersPageType => {
 
     switch (action.type) {
         case FOLLOW:
             return {
                 ...state,
-                users: state.users.map( (user) => {
+                users: state.users.map((user) => {
                     if (user.id === action.userID) {
                         return {...user, followed: true}
                     }
@@ -50,18 +52,25 @@ const usersReducer = (state: UsersPageType = initialState , action: ActionTypes)
             return {...state, currentPage: action.currentPage}
         case TOGGLE_iS_FETCHING:
             return {...state, isFetching: action.isFetching}
+        case TOGGLE_iS_FOLLOWING_PROGRESS:
+            return <UsersPageType>{
+                ...state,
+                followingProgress: action.isFollowing
+                    ? [...state.followingProgress, action.id]
+                    : [state.followingProgress.filter(id => id !== action.id),]
+            }
         default:
             return state
     }
 }
 
 
-export const follow = (userID: number)=> {
+export const follow = (userID: number) => {
     return {type: FOLLOW, userID: userID} as const
 }
 
 export const unFollow = (userID: number) => {
-    return {type: UNFOLLOW, userID: userID}as const
+    return {type: UNFOLLOW, userID: userID} as const
 }
 
 export const setUsers = (users: Array<UsersDataType>) => {
@@ -78,6 +87,10 @@ export const setCurrentPage = (pageNumber: number) => {
 
 export const setIsFetching = (isFetching: boolean) => {
     return {type: TOGGLE_iS_FETCHING, isFetching} as const
+}
+
+export const setFollowingProgress = (isFollowing: boolean, id: number) => {
+    return {type: TOGGLE_iS_FOLLOWING_PROGRESS, isFollowing, id} as const
 }
 
 export default usersReducer;

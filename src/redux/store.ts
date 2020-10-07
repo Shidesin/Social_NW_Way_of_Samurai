@@ -2,7 +2,7 @@ import {AddPostActionCreator, onPostChangeActionCreator, setUserProfile} from '.
 import  {addMessageActionCreator, onMessageChangeActionCreator} from './DialogPage-Reducer';
 import {
     follow,
-    setCurrentPage,
+    setCurrentPage, setFollowingProgress,
     setIsFetching,
     setTotalUsersCount,
     setUsers,
@@ -46,6 +46,7 @@ export type UsersPageType = {
     pageSize: number
     currentPage: number
     isFetching: boolean
+    followingProgress: number[]
 }
 export type UsersDataType = {
     id: number
@@ -78,7 +79,8 @@ export type ActionTypes =
     ReturnType<typeof setTotalUsersCount>|
     ReturnType<typeof setCurrentPage>|
     ReturnType<typeof setIsFetching> |
-    ReturnType<typeof setUserProfile>
+    ReturnType<typeof setUserProfile> |
+    ReturnType<typeof setFollowingProgress>
 
 
 // type StoreType = {

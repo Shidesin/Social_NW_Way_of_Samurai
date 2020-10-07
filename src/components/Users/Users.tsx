@@ -13,6 +13,8 @@ type UsersPropsType = {
     follow: (userID: number) => void;
     unFollow: (userID: number) => void;
     onPageChanged: (pageNumber: number) => void;
+    setFollowingProgress: (isFollowing:boolean, id: number) => void
+    followingProgress: number[]
 }
 
 export type GetFollowItems = {
@@ -56,24 +58,28 @@ export const Users = (props: UsersPropsType) => {
                         </div>
                         <div>
                             {u.followed ?
-                                <button onClick={() => {
+                                <button disabled={props.followingProgress.some(id => id === u.id)} onClick={() => {
+                                    props.setFollowingProgress(true, u.id)
                                     UserAPI.deleteUser(u.id)
                                         .then(data => {
                                             if (data.resultCode === 0) {
                                                 props.unFollow(u.id);
                                             }
+                                            props.setFollowingProgress(false, u.id)
                                         });
 
 
                                 }}>UnFollow</button>
                                 :
 
-                                <button onClick={() => {
+                                <button disabled={props.followingProgress.some(id => id === u.id)} onClick={() => {
+                                    props.setFollowingProgress(true, u.id)
                                     UserAPI.postUser(u.id)
                                         .then(data => {
                                             if (data.resultCode === 0) {
                                                 props.follow(u.id)
                                             }
+                                            props.setFollowingProgress(false, u.id)
                                         });
 
                                 }}>Follow</button>

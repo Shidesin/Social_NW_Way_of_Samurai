@@ -1,5 +1,6 @@
 import {ActionTypes, ProfilePageType} from './store';
 import {GetProfileItems} from '../components/Profile/ProfileContainer';
+import {ProfileAPI} from '../api/api';
 
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
@@ -58,6 +59,16 @@ export const onPostChangeActionCreator = (text: string) => {
 
 export const setUserProfile = (profile: GetProfileItems) => {
     return {type: SET_USER_PROFILE, profile} as const
+}
+
+export const getProfileData = (userId: string) => {
+    return (dispatch: any) => {
+
+        ProfileAPI.getProfile(userId)
+            .then((data: GetProfileItems) => {
+                dispatch(setUserProfile(data))
+            })
+    }
 }
 
 export default profileReducer;

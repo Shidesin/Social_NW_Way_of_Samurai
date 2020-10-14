@@ -13,6 +13,7 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
         return <Preloader/>
     }
 
+
     let allContacts = Object.values(props.profile.contacts).filter(cont => cont !== null)
 
     return (
@@ -23,13 +24,14 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
                      alt=""/>
             </div>
             <div className={s.descriptionBlock}>
-                <img src={props.profile.photos.large} alt="UserAvatar"/>
+                <img src={props.profile.photos.large} alt="User avatar"/>
                 <div>
                     Hi! My name is {props.profile.fullName}
                 </div>
                 <div>
-                    About me: {props.profile.aboutMe}
+                     {props.profile.aboutMe? `About me: ${props.profile.aboutMe}`: null}
                 </div>
+
                 <div>
                     You can contact me through:
                     <div>

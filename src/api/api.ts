@@ -1,7 +1,14 @@
 import axios from 'axios';
 import {GetUsersItems} from '../components/Users/UsersContainer';
-import {GetFollowItems} from '../components/Users/Users';
 import {GetProfileItems} from '../components/Profile/ProfileContainer';
+import {GetAuthItemsType} from '../redux/auth-reducer';
+
+export type GetFollowItems = {
+    data: object
+    fieldsErrors: string[]
+    messages: string[]
+    resultCode: number
+}
 
 const instance = axios.create(
     {
@@ -44,3 +51,11 @@ export const ProfileAPI = {
 }
 
 
+export const AuthAPI = {
+    getAuthMe(){
+        return instance.get<GetAuthItemsType>(`auth/me`)
+            .then(response => {
+                return response.data
+            })
+    }
+}

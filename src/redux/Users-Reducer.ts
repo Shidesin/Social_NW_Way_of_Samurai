@@ -1,4 +1,5 @@
 import {ActionTypes, UsersDataType, UsersPageType} from './store';
+import {UserAPI} from '../api/api';
 
 const SET_USERS = 'SET_USERS';
 const FOLLOW = 'FOLLOW';
@@ -65,11 +66,11 @@ const usersReducer = (state: UsersPageType = initialState, action: ActionTypes):
 }
 
 
-export const follow = (userID: number) => {
+export const followSuccess = (userID: number) => {
     return {type: FOLLOW, userID: userID} as const
 }
 
-export const unFollow = (userID: number) => {
+export const unFollowSuccess = (userID: number) => {
     return {type: UNFOLLOW, userID: userID} as const
 }
 
@@ -91,6 +92,45 @@ export const setIsFetching = (isFetching: boolean) => {
 
 export const setFollowingProgress = (isFollowing: boolean, id: number) => {
     return {type: TOGGLE_iS_FOLLOWING_PROGRESS, isFollowing, id} as const
+}
+
+
+export const getUsers = (currentPage: number,pageSize: number) => {
+    return (dispatch: any) => {
+        dispatch(setIsFetching(true))
+        UserAPI.getUsers(currentPage, pageSize)
+            .then(data => {
+                dispatch(setIsFetching(false))
+                dispatch(setUsers(data.items));
+                dispatch(setTotalUsersCount(data.totalCount))
+            })
+    }
+}
+
+export const follow = (id: number) => {
+    return (dispatch: any) => {
+        dispatch(setFollowingProgress(true, id))
+        UserAPI.postUser(id)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(followSuccess(id))
+                }
+                dispatch(setFollowingProgress(false, id))
+            })
+    }
+}
+
+export const unFollow = (id: number) => {
+    return (dispatch: any) => {
+        dispatch(setFollowingProgress(true, id))
+        UserAPI.deleteUser(id)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(unFollowSuccess(id))
+                }
+                dispatch(setFollowingProgress(false, id))
+            })
+    }
 }
 
 export default usersReducer;

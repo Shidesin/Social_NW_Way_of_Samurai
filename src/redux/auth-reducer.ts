@@ -1,4 +1,5 @@
 import {ActionTypes} from './store';
+import {AuthAPI} from '../api/api';
 
 const SET_USER_DATA = 'SET_USER_DATA';
 
@@ -51,6 +52,17 @@ const authReducer = (state: InitialStateType = initialState , action: ActionType
 
 export const setAuthUserData = (data: DataMeType)=> {
     return {type: SET_USER_DATA, data} as const
+}
+
+export const getAuthUserData = () => {
+    return (dispatch: any) => {
+        AuthAPI.getAuthMe()
+            .then(response => {
+                if (response.resultCode === 0) {
+                    dispatch(setAuthUserData(response.data))
+                }
+            })
+    }
 }
 
 

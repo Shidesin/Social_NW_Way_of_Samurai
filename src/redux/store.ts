@@ -1,12 +1,12 @@
 import {AddPostActionCreator, onPostChangeActionCreator, setUserProfile} from './ProfilePage-Reducer';
 import  {addMessageActionCreator, onMessageChangeActionCreator} from './DialogPage-Reducer';
 import {
-    follow,
+    followSuccess,
     setCurrentPage, setFollowingProgress,
     setIsFetching,
     setTotalUsersCount,
     setUsers,
-    unFollow
+    unFollowSuccess
 } from './Users-Reducer';
 import {setAuthUserData} from './auth-reducer';
 
@@ -73,8 +73,8 @@ export type ActionTypes =
     ReturnType<typeof onPostChangeActionCreator> |
     ReturnType<typeof addMessageActionCreator> |
     ReturnType<typeof onMessageChangeActionCreator>|
-    ReturnType<typeof follow>|
-    ReturnType<typeof unFollow>|
+    ReturnType<typeof followSuccess>|
+    ReturnType<typeof unFollowSuccess>|
     ReturnType<typeof setUsers>|
     ReturnType<typeof setTotalUsersCount>|
     ReturnType<typeof setCurrentPage>|

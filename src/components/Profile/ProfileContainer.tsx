@@ -6,6 +6,7 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 import React from 'react';
 import {connect} from 'react-redux';
 import {withAuthRedirectComponent} from '../../hoc/withAuthRedirect';
+import {compose} from 'redux';
 
 
 export type GetProfileItems = {
@@ -19,14 +20,14 @@ export type GetProfileItems = {
 }
 
 type contactsType = {
-    facebook: string | null
-    website: string | null
-    vk: string | null
-    twitter: string | null
-    instagram: string | null
-    youtube: string | null
-    github: string | null
-    mainLink: string | null
+    facebook: string
+    website: string
+    vk: string
+    twitter: string
+    instagram: string
+    youtube: string
+    github: string
+    mainLink: string
 }
 
 type MapStatePropsType = {
@@ -59,6 +60,18 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     profile: state.profilePage.profile,
 })
 
-let WithUrlDataContainerComponent = withRouter(withAuthRedirectComponent(ProfileContainer))
+// let WithUrlDataContainerComponent = withRouter(withAuthRedirectComponent(ProfileContainer))
 
-export default connect(mapStateToProps, {getProfileData})(WithUrlDataContainerComponent);
+
+compose(
+    connect(mapStateToProps, {getProfileData}),
+    withRouter,
+    withAuthRedirectComponent
+)(ProfileContainer)
+
+// export default connect(mapStateToProps, {getProfileData})(WithUrlDataContainerComponent);
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {getProfileData}),
+    withRouter,
+    withAuthRedirectComponent
+)(ProfileContainer)

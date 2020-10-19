@@ -10,6 +10,7 @@ import {
 import {Users} from './Users';
 import {Preloader} from '../Preloader/Preloader';
 import {withAuthRedirectComponent} from '../../hoc/withAuthRedirect';
+import {compose} from 'redux';
 
 
 type UsersPropsType = {
@@ -71,10 +72,21 @@ let mapStateToProps = (state: AppStateType) => {
 }
 
 
-export default withAuthRedirectComponent(connect(
-    mapStateToProps, {
-        follow,
-        unFollow,
-        setCurrentPage,
-        getUsers,
-    })(UsersContainer));
+export default compose<React.ComponentType>(
+    withAuthRedirectComponent,
+    connect(
+        mapStateToProps, {
+            follow,
+            unFollow,
+            setCurrentPage,
+            getUsers,
+        })
+)(UsersContainer)
+
+// export default withAuthRedirectComponent(connect(
+//     mapStateToProps, {
+//         follow,
+//         unFollow,
+//         setCurrentPage,
+//         getUsers,
+//     })(UsersContainer));

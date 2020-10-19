@@ -9,6 +9,7 @@ import {
 } from '../../redux/Users-Reducer';
 import {Users} from './Users';
 import {Preloader} from '../Preloader/Preloader';
+import {withAuthRedirectComponent} from '../../hoc/withAuthRedirect';
 
 
 type UsersPropsType = {
@@ -21,7 +22,7 @@ type UsersPropsType = {
     unFollow: (userID: number) => void
     setCurrentPage: (pageNumber: number) => void
     followingProgress: number[]
-    getUsers: (currentPage: number,pageSize: number) => void
+    getUsers: (currentPage: number, pageSize: number) => void
 }
 export type GetUsersItems = {
     items: Array<UsersDataType>
@@ -70,9 +71,10 @@ let mapStateToProps = (state: AppStateType) => {
 }
 
 
-export default connect(mapStateToProps, {
-    follow,
-    unFollow,
-    setCurrentPage,
-    getUsers,
-})(UsersContainer);
+export default withAuthRedirectComponent(connect(
+    mapStateToProps, {
+        follow,
+        unFollow,
+        setCurrentPage,
+        getUsers,
+    })(UsersContainer));

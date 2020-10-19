@@ -5,6 +5,7 @@ import {getProfileData} from '../../redux/ProfilePage-Reducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import React from 'react';
 import {connect} from 'react-redux';
+import {withAuthRedirectComponent} from '../../hoc/withAuthRedirect';
 
 
 export type GetProfileItems = {
@@ -49,21 +50,19 @@ class ProfileContainer extends React.Component <MapStatePropsType & MapDispatchP
             userId = '8521' //my ID
         }
         this.props.getProfileData(userId)
-        // ProfileAPI.getProfile(userId)
-        //     .then((data: GetProfileItems) => {
-        //         this.props.setUserProfile(data)
-        //     })
     }
 
     render() {
+
+
         return <Profile profile={this.props.profile}/>
     }
 }
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
-    profile: state.profilePage.profile
+    profile: state.profilePage.profile,
 })
 
-let WithUrlDataContainerComponent = withRouter(ProfileContainer)
+let WithUrlDataContainerComponent = withRouter(withAuthRedirectComponent(ProfileContainer))
 
 export default connect(mapStateToProps, {getProfileData})(WithUrlDataContainerComponent);

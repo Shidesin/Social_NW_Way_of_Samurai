@@ -8,6 +8,7 @@ type HeaderPropsType = {
 }
 
 export function Header(props: HeaderPropsType) {
+    debugger
     return (
         <header className={stylecss.header}>
             <img src="https://image.freepik.com/free-vector/abstract-logo-two-versions_23-2148455881.jpg" alt=""/>

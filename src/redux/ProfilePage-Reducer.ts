@@ -63,7 +63,6 @@ export const setUserProfile = (profile: GetProfileItems) => {
 
 export const getProfileData = (userId: string) => {
     return (dispatch: any) => {
-
         ProfileAPI.getProfile(userId)
             .then((data: GetProfileItems) => {
                 dispatch(setUserProfile(data))

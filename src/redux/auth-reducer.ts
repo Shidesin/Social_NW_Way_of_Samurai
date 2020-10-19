@@ -1,5 +1,6 @@
 import {ActionTypes} from './store';
 import {AuthAPI} from '../api/api';
+import {Dispatch} from 'redux';
 
 const SET_USER_DATA = 'SET_USER_DATA';
 
@@ -55,7 +56,7 @@ export const setAuthUserData = (data: DataMeType)=> {
 }
 
 export const getAuthUserData = () => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch<ActionTypes>) => {
         AuthAPI.getAuthMe()
             .then(response => {
                 if (response.resultCode === 0) {

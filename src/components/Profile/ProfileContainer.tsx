@@ -41,7 +41,6 @@ type PathParamsType = {
     userId: string,
 }
 
-
 class ProfileContainer extends React.Component <MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>> {
 
     componentDidMount() {
@@ -51,10 +50,7 @@ class ProfileContainer extends React.Component <MapStatePropsType & MapDispatchP
         }
         this.props.getProfileData(userId)
     }
-
     render() {
-
-
         return <Profile profile={this.props.profile}/>
     }
 }

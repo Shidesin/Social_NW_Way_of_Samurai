@@ -15,18 +15,10 @@ let mapStateToProps = (state: AppStateType) => {
 
 let mapDispatchToProps = (dispatch: (action: ActionTypes) => void) => {
     return {
-        addMessage: () => {
-            dispatch(addMessageActionCreator())
-        },
-        updateNewMessageText:(newMessage: string) => {
-
-                dispatch(onMessageChangeActionCreator(newMessage))
-
-        }
+        addMessage: () => {dispatch(addMessageActionCreator())},
+        updateNewMessageText:(newMessage: string) => {dispatch(onMessageChangeActionCreator(newMessage))}
     }
 }
-
-// let AuthRedirectComponent = (Dialogs)
 
 const  DialogsContainer = withAuthRedirectComponent(connect(mapStateToProps, mapDispatchToProps)(Dialogs))
 

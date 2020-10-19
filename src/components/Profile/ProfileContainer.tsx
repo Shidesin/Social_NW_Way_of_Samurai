@@ -60,16 +60,6 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     profile: state.profilePage.profile,
 })
 
-// let WithUrlDataContainerComponent = withRouter(withAuthRedirectComponent(ProfileContainer))
-
-
-compose(
-    connect(mapStateToProps, {getProfileData}),
-    withRouter,
-    withAuthRedirectComponent
-)(ProfileContainer)
-
-// export default connect(mapStateToProps, {getProfileData})(WithUrlDataContainerComponent);
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {getProfileData}),
     withRouter,

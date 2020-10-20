@@ -9,13 +9,14 @@ const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 
 
-interface GetStatusItems extends GetFollowItems {}
+interface GetStatusItems extends GetFollowItems {
+}
 
 let initialState: ProfilePageType = {
     postData: [
         {id: 1, post: 'Hi, how are you?', CounterLike: 15},
         {id: 2, post: 'It\'s my first post!', CounterLike: 20}
-    ] ,
+    ],
     newPostText: '',
     profile: null,
     status: ''
@@ -84,7 +85,6 @@ export const getStatus = (userId: string) => {
     return (dispatch: Dispatch) => {
         ProfileAPI.getProfileStatus(userId)
             .then((data: string) => {
-                debugger
                 dispatch(setStatus(data))
             })
     }
@@ -94,8 +94,7 @@ export const updateStatus = (status: string) => {
     return (dispatch: Dispatch) => {
         ProfileAPI.updateProfileStatus(status)
             .then((data: GetStatusItems) => {
-                debugger
-                if(data.resultCode === 0){
+                if (data.resultCode === 0) {
                     dispatch(setStatus(status))
                 }
 

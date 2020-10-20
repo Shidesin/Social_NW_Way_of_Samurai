@@ -11,7 +11,6 @@ export type GetFollowItems = {
 }
 
 
-
 const instance = axios.create(
     {
         withCredentials: true,
@@ -53,7 +52,6 @@ export const ProfileAPI = {
     getProfileStatus(userId: string) {
         return instance.get<string>(`profile/status/${userId}`)
             .then(response => {
-                debugger
                 return response.data
             })
     },

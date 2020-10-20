@@ -10,6 +10,8 @@ export type GetFollowItems = {
     resultCode: number
 }
 
+
+
 const instance = axios.create(
     {
         withCredentials: true,
@@ -27,13 +29,13 @@ export const UserAPI = {
                 return response.data
             })
     },
-    deleteUser(id:number) {
+    deleteUser(id: number) {
         return instance.delete<GetFollowItems>(`follow/${id}`)
             .then(response => {
                 return response.data
             })
     },
-    postUser(id:number) {
+    postUser(id: number) {
         return instance.post<GetFollowItems>(`follow/${id}`)
             .then(response => {
                 return response.data
@@ -42,8 +44,21 @@ export const UserAPI = {
 }
 
 export const ProfileAPI = {
-    getProfile(userId: string){
+    getProfile(userId: string) {
         return instance.get<GetProfileItems>(`profile/${userId}`)
+            .then(response => {
+                return response.data
+            })
+    },
+    getProfileStatus(userId: string) {
+        return instance.get<string>(`profile/status/${userId}`)
+            .then(response => {
+                debugger
+                return response.data
+            })
+    },
+    updateProfileStatus(status: string) {
+        return instance.put<GetFollowItems>(`profile/status`, {status: status})
             .then(response => {
                 return response.data
             })
@@ -52,7 +67,7 @@ export const ProfileAPI = {
 
 
 export const AuthAPI = {
-    getAuthMe(){
+    getAuthMe() {
         return instance.get<GetAuthItemsType>(`auth/me`)
             .then(response => {
                 return response.data

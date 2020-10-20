@@ -6,6 +6,8 @@ import ProfileStatus from './ProfileStatus'
 
 type ProfileInfoPropsType = {
     profile: GetProfileItems
+    status: string
+    updateStatus: (status: string) => void
 }
 
 export function ProfileInfo(props: ProfileInfoPropsType) {
@@ -20,11 +22,14 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
     return (
         <div>
             <div className={s.descriptionBlock}>
-                <img src={props.profile.photos.large} alt="User avatar"/>
-                <ProfileStatus status={'Ну нихуясе!'}/>
                 <div>
                     Hi! My name is {props.profile.fullName}
                 </div>
+
+                <img src={props.profile.photos.large} alt="User avatar"/>
+
+                <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
+
                 <div>
                     {props.profile.aboutMe ? `About me: ${props.profile.aboutMe}` : null}
                 </div>
@@ -32,7 +37,7 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
                 <div>
                     {contact === '' ? null :'My other contact:'}
                     <div>
-                        {contact === '' ? null : allContacts.map(c => <div><a key={c} href={`${c}`}>{c}</a></div>)}
+                        {contact === '' ? null : allContacts.map(c => <div key={c}><a href={`${c}`}>{c}</a></div>)}
                     </div>
                 </div>
             </div>

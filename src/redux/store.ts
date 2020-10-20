@@ -1,4 +1,4 @@
-import {AddPostActionCreator, onPostChangeActionCreator, setUserProfile} from './ProfilePage-Reducer';
+import {AddPostActionCreator, onPostChangeActionCreator, setStatus, setUserProfile} from './ProfilePage-Reducer';
 import  {addMessageActionCreator, onMessageChangeActionCreator} from './DialogPage-Reducer';
 import {
     followSuccess,
@@ -65,6 +65,7 @@ export type ProfilePageType = {
     postData: Array<PostDataType>
     newPostText: string
     profile: any
+    status: string
 }
 
 export type ActionTypes =
@@ -80,4 +81,5 @@ export type ActionTypes =
     ReturnType<typeof setCurrentPage>|
     ReturnType<typeof setIsFetching> |
     ReturnType<typeof setUserProfile> |
-    ReturnType<typeof setFollowingProgress>
+    ReturnType<typeof setFollowingProgress> |
+    ReturnType<typeof setStatus>

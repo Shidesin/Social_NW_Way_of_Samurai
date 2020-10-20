@@ -1,11 +1,15 @@
 import {ActionTypes, ProfilePageType} from './store';
 import {GetProfileItems} from '../components/Profile/ProfileContainer';
-import {ProfileAPI} from '../api/api';
+import {GetFollowItems, ProfileAPI} from '../api/api';
+import {Dispatch} from 'redux';
 
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_STATUS = 'SET_STATUS';
 
+
+interface GetStatusItems extends GetFollowItems {}
 
 let initialState: ProfilePageType = {
     postData: [
@@ -13,7 +17,8 @@ let initialState: ProfilePageType = {
         {id: 2, post: 'It\'s my first post!', CounterLike: 20}
     ] ,
     newPostText: '',
-    profile: null
+    profile: null,
+    status: ''
 }
 
 // type initialStateProfileType = typeof initialState
@@ -38,6 +43,8 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionTyp
         }
         case SET_USER_PROFILE:
             return {...state, profile: action.profile}
+        case SET_STATUS:
+            return {...state, status: action.status}
         default:
             return state;
 
@@ -60,12 +67,38 @@ export const onPostChangeActionCreator = (text: string) => {
 export const setUserProfile = (profile: GetProfileItems) => {
     return {type: SET_USER_PROFILE, profile} as const
 }
+export const setStatus = (status: string) => {
+    return {type: SET_STATUS, status} as const
+}
 
 export const getProfileData = (userId: string) => {
-    return (dispatch: any) => {
+    return (dispatch: Dispatch) => {
         ProfileAPI.getProfile(userId)
             .then((data: GetProfileItems) => {
                 dispatch(setUserProfile(data))
+            })
+    }
+}
+
+export const getStatus = (userId: string) => {
+    return (dispatch: Dispatch) => {
+        ProfileAPI.getProfileStatus(userId)
+            .then((data: string) => {
+                debugger
+                dispatch(setStatus(data))
+            })
+    }
+}
+
+export const updateStatus = (status: string) => {
+    return (dispatch: Dispatch) => {
+        ProfileAPI.updateProfileStatus(status)
+            .then((data: GetStatusItems) => {
+                debugger
+                if(data.resultCode === 0){
+                    dispatch(setStatus(status))
+                }
+
             })
     }
 }

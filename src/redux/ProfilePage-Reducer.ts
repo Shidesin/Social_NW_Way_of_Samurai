@@ -1,7 +1,7 @@
 import {ActionTypes, ProfilePageType} from './store';
 import {GetProfileItems} from '../components/Profile/ProfileContainer';
 import {GetFollowItems, ProfileAPI} from '../api/api';
-import {Dispatch} from 'redux';
+import {ThunkDispatchType, ThunkType} from './auth-reducer';
 
 const ADD_POST = 'ADD-POST'
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
@@ -58,8 +58,8 @@ export const setStatus = (status: string) => {
     return {type: SET_STATUS, status} as const
 }
 
-export const getProfileData = (userId: string) => {
-    return (dispatch: Dispatch) => {
+export const getProfileData = (userId: string): ThunkType => {
+    return (dispatch: ThunkDispatchType) => {
         ProfileAPI.getProfile(userId)
             .then((data: GetProfileItems) => {
                 dispatch(setUserProfile(data))
@@ -67,8 +67,8 @@ export const getProfileData = (userId: string) => {
     }
 }
 
-export const getStatus = (userId: string) => {
-    return (dispatch: Dispatch) => {
+export const getStatus = (userId: string): ThunkType => {
+    return (dispatch: ThunkDispatchType) => {
         ProfileAPI.getProfileStatus(userId)
             .then((data: string) => {
                 dispatch(setStatus(data))
@@ -76,8 +76,8 @@ export const getStatus = (userId: string) => {
     }
 }
 
-export const updateStatus = (status: string) => {
-    return (dispatch: Dispatch) => {
+export const updateStatus = (status: string): ThunkType => {
+    return (dispatch: ThunkDispatchType) => {
         ProfileAPI.updateProfileStatus(status)
             .then((data: GetStatusItems) => {
                 if (data.resultCode === 0) {

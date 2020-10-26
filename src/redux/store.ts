@@ -2,7 +2,8 @@ import {AddPostActionCreator, setStatus, setUserProfile} from './ProfilePage-Red
 import  {addMessageActionCreator} from './DialogPage-Reducer';
 import {
     followSuccess,
-    setCurrentPage, setFollowingProgress,
+    setCurrentPage,
+    setFollowingProgress,
     setIsFetching,
     setTotalUsersCount,
     setUsers,

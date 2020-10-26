@@ -70,5 +70,15 @@ export const AuthAPI = {
             .then(response => {
                 return response.data
             })
+    },
+    logIn(email: string,password: string, rememberMe: boolean = false){
+        return instance.post<GetFollowItems>(`auth/login`,{email,password, rememberMe}).then(response => {
+            return response.data
+        })
+    },
+    logOut(){
+        return instance.delete<GetFollowItems>(`auth/login`).then(response => {
+            return response.data
+        })
     }
 }

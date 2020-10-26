@@ -1,5 +1,6 @@
 import {ActionTypes, UsersDataType, UsersPageType} from './store';
 import {UserAPI} from '../api/api';
+import {ThunkDispatchType, ThunkType} from './auth-reducer';
 
 const SET_USERS = 'SET_USERS';
 const FOLLOW = 'FOLLOW';
@@ -95,8 +96,8 @@ export const setFollowingProgress = (isFollowing: boolean, id: number) => {
 }
 
 
-export const getUsers = (currentPage: number,pageSize: number) => {
-    return (dispatch: any) => {
+export const getUsers = (currentPage: number,pageSize: number): ThunkType => {
+    return (dispatch: ThunkDispatchType) => {
         dispatch(setIsFetching(true))
         UserAPI.getUsers(currentPage, pageSize)
             .then(data => {
@@ -107,8 +108,8 @@ export const getUsers = (currentPage: number,pageSize: number) => {
     }
 }
 
-export const follow = (id: number) => {
-    return (dispatch: any) => {
+export const follow = (id: number): ThunkType => {
+    return (dispatch: ThunkDispatchType) => {
         dispatch(setFollowingProgress(true, id))
         UserAPI.postUser(id)
             .then(data => {
@@ -120,8 +121,8 @@ export const follow = (id: number) => {
     }
 }
 
-export const unFollow = (id: number) => {
-    return (dispatch: any) => {
+export const unFollow = (id: number): ThunkType => {
+    return (dispatch: ThunkDispatchType) => {
         dispatch(setFollowingProgress(true, id))
         UserAPI.deleteUser(id)
             .then(data => {

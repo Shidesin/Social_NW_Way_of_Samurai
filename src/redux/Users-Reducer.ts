@@ -66,34 +66,21 @@ const usersReducer = (state: UsersPageType = initialState, action: ActionTypes):
     }
 }
 
+export const followSuccess = (userID: number) => ({type: FOLLOW, userID: userID} as const)
 
-export const followSuccess = (userID: number) => {
-    return {type: FOLLOW, userID: userID} as const
-}
 
-export const unFollowSuccess = (userID: number) => {
-    return {type: UNFOLLOW, userID: userID} as const
-}
+export const unFollowSuccess = (userID: number) => ({type: UNFOLLOW, userID: userID} as const)
 
-export const setUsers = (users: Array<UsersDataType>) => {
-    return {type: SET_USERS, users: users} as const
-}
 
-export const setTotalUsersCount = (totalCount: number) => {
-    return {type: SET_TOTAL_USERS_COUNT, count: totalCount} as const
-}
+export const setUsers = (users: Array<UsersDataType>) => ({type: SET_USERS, users: users} as const)
 
-export const setCurrentPage = (pageNumber: number) => {
-    return {type: SET_CURRENT_PAGE, currentPage: pageNumber} as const
-}
+export const setTotalUsersCount = (totalCount: number) => ({type: SET_TOTAL_USERS_COUNT, count: totalCount} as const)
 
-export const setIsFetching = (isFetching: boolean) => {
-    return {type: TOGGLE_iS_FETCHING, isFetching} as const
-}
+export const setCurrentPage = (pageNumber: number) => ({type: SET_CURRENT_PAGE, currentPage: pageNumber} as const)
 
-export const setFollowingProgress = (isFollowing: boolean, id: number) => {
-    return {type: TOGGLE_iS_FOLLOWING_PROGRESS, isFollowing, id} as const
-}
+export const setIsFetching = (isFetching: boolean) => ({type: TOGGLE_iS_FETCHING, isFetching} as const)
+
+export const setFollowingProgress = (isFollowing: boolean, id: number) => ({type: TOGGLE_iS_FOLLOWING_PROGRESS, isFollowing, id} as const)
 
 
 export const getUsers = (currentPage: number,pageSize: number): ThunkType => {

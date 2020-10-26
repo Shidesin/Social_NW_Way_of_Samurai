@@ -3,6 +3,8 @@ import stylecss from './MyPosts.module.css'
 import {Post} from './Post/Post';
 import {PostDataType} from '../../../redux/store';
 import  {Field, InjectedFormProps, reduxForm} from 'redux-form';
+import {maxLengthCreator, requiredField} from '../../../utils/validator';
+import {TextArea} from '../../FormsControl/FormsControls';
 
 
 type PropsType = {
@@ -17,7 +19,7 @@ type FormPostType = {
 
 export const MyPosts: React.FC<PropsType> = (props) => {
 
-    let postElement = props.postData.map(p => <Post post={p.post} CounterLike={p.CounterLike} id={p.id} key={p.id}/>)
+    let postElement = props.postData.map((p, index) => <Post post={p.post} CounterLike={p.CounterLike} id={p.id} key={index}/>)
 
     const addNewPostMessage = (formData: FormPostType) => {
         if (formData.postMessage) {
@@ -36,12 +38,14 @@ export const MyPosts: React.FC<PropsType> = (props) => {
     )
 }
 
+const maxLength = maxLengthCreator(10)
+
 const AddPostMessage = (props: InjectedFormProps<FormPostType>) => {
 
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component={'textarea'} name={'postMessage'} placeholder={'Input you message'}/>
+                <Field component={TextArea} name={'postMessage'} placeholder={'Input you message'} validate={[requiredField, maxLength]}/>
                 <button>Send</button>
             </div>
         </form>

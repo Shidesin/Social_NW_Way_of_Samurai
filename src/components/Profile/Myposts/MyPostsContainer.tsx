@@ -1,4 +1,4 @@
-import {AddPostActionCreator, onPostChangeActionCreator} from '../../../redux/ProfilePage-Reducer';
+import {AddPostActionCreator} from '../../../redux/ProfilePage-Reducer';
 import {MyPosts} from './MyPosts';
 import {AppStateType} from '../../../redux/redux-store';
 import {ActionTypes} from '../../../redux/store';
@@ -14,8 +14,7 @@ let mapStateToProps = (state: AppStateType) => {
 
 let mapDispatchToProps =  (dispatch: (action: ActionTypes) => void) => {
     return {
-        addPost: () => { dispatch(AddPostActionCreator())},
-        onPostChange: (text: string) => {dispatch(onPostChangeActionCreator(text))}
+        addPost: (textMessage: string) => { dispatch(AddPostActionCreator(textMessage))},
     }
 }
 

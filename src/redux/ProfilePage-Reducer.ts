@@ -4,7 +4,6 @@ import {GetFollowItems, ProfileAPI} from '../api/api';
 import {Dispatch} from 'redux';
 
 const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 
@@ -28,19 +27,15 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionTyp
 
     switch (action.type) {
         case ADD_POST: {
-            let newPostText = state.newPostText
+            let newPostText = action.textMessage
             return {
                 ...state,
                 postData: [...state.postData, {
                     id: 5,
                     post: newPostText,
                     CounterLike: 0
-                }],
-                newPostText: ''
+                }]
             };
-        }
-        case UPDATE_NEW_POST_TEXT: {
-            return {...state, newPostText: action.newText};
         }
         case SET_USER_PROFILE:
             return {...state, profile: action.profile}
@@ -52,17 +47,8 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionTyp
     }
 };
 
-export const AddPostActionCreator = () => {
-    return {
-        type: ADD_POST
-    } as const
-}
-
-export const onPostChangeActionCreator = (text: string) => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newText: text
-    } as const
+export const AddPostActionCreator = (textMessage: string) => {
+    return {type: ADD_POST, textMessage} as const
 }
 
 export const setUserProfile = (profile: GetProfileItems) => {

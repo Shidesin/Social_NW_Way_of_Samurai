@@ -1,5 +1,5 @@
-import {AddPostActionCreator, onPostChangeActionCreator, setStatus, setUserProfile} from './ProfilePage-Reducer';
-import  {addMessageActionCreator, onMessageChangeActionCreator} from './DialogPage-Reducer';
+import {AddPostActionCreator, setStatus, setUserProfile} from './ProfilePage-Reducer';
+import  {addMessageActionCreator} from './DialogPage-Reducer';
 import {
     followSuccess,
     setCurrentPage, setFollowingProgress,
@@ -71,9 +71,7 @@ export type ProfilePageType = {
 export type ActionTypes =
     ReturnType<typeof setAuthUserData> |
     ReturnType<typeof AddPostActionCreator> |
-    ReturnType<typeof onPostChangeActionCreator> |
     ReturnType<typeof addMessageActionCreator> |
-    ReturnType<typeof onMessageChangeActionCreator>|
     ReturnType<typeof followSuccess>|
     ReturnType<typeof unFollowSuccess>|
     ReturnType<typeof setUsers>|

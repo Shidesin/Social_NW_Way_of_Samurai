@@ -11,15 +11,11 @@ type MapStatePropsType = {
 }
 
 type MapDispatchPropsType = {
-    getAuthUserData: (isAuth: boolean) => void
     logOutTC: () => void
 }
 
 class HeaderContainer extends React.Component <MapStatePropsType & MapDispatchPropsType> {
 
-    // componentDidMount() {
-    //     this.props.getAuthUserData(false)
-    // }
 
     render() {
         return (
@@ -35,4 +31,4 @@ const MapStateToProps = (state: AppStateType) => {
     }
 }
 
-export default connect(MapStateToProps, {getAuthUserData, logOutTC})(HeaderContainer);
+export default connect(MapStateToProps, {logOutTC})(HeaderContainer);

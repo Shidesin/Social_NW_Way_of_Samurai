@@ -10,6 +10,7 @@ import {
     unFollowSuccess
 } from './Users-Reducer';
 import {setAuthUserData} from './auth-reducer';
+import {initialaizedSuccess} from './appReducer';
 
 export type MessageDataType = {
     id: number
@@ -81,4 +82,6 @@ export type ActionTypes =
     ReturnType<typeof setIsFetching> |
     ReturnType<typeof setUserProfile> |
     ReturnType<typeof setFollowingProgress> |
-    ReturnType<typeof setStatus>
+    ReturnType<typeof setStatus> |
+    ReturnType<typeof initialaizedSuccess>
+

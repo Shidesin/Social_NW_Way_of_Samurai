@@ -58,15 +58,13 @@ export const setAuthUserData = (data: DataMeType, isAuth: boolean) => {
     return {type: SET_USER_DATA, data, isAuth} as const
 }
 
-export const getAuthUserData = (isAuth: boolean): ThunkType => {
-    return (dispatch: ThunkDispatchType) => {
-        AuthAPI.getAuthMe()
-            .then(response => {
-                if (response.resultCode === 0) {
-                    dispatch(setAuthUserData(response.data, isAuth))
-                }
-            })
-    }
+export const getAuthUserData = (isAuth: boolean): ThunkType => (dispatch: ThunkDispatchType) => {
+    return AuthAPI.getAuthMe()
+        .then(response => {
+            if (response.resultCode === 0) {
+                dispatch(setAuthUserData(response.data, isAuth))
+            }
+        })
 }
 
 
@@ -76,7 +74,7 @@ export const loginTC = (email: string, password: string, rememberMe: boolean): T
             if (res.resultCode === 0) {
                 dispatch(getAuthUserData(true))
             } else {
-                let message = res.messages.length > 0 ? res.messages[0] : "Some error"
+                let message = res.messages.length > 0 ? res.messages[0] : 'Some error'
                 dispatch(stopSubmit('login', {_error: message}))
             }
         })
@@ -86,7 +84,7 @@ export const logOutTC = (): ThunkType => (dispatch: ThunkDispatchType) => {
     AuthAPI.logOut()
         .then(res => {
             if (res.resultCode === 0) {
-                dispatch(setAuthUserData({email: null,id: null,login: null}, false))
+                dispatch(setAuthUserData({email: null, id: null, login: null}, false))
             }
         })
 }

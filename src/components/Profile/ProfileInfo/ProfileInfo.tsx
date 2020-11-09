@@ -3,6 +3,7 @@ import s from './ProfileInfo.module.css'
 import {GetProfileItems} from '../ProfileContainer';
 import {Preloader} from '../../Preloader/Preloader';
 import ProfileStatus from './ProfileStatus'
+import ProfileStatusWithHooks from './ProfileStatusWithHooks'
 
 type ProfileInfoPropsType = {
     profile: GetProfileItems
@@ -28,7 +29,9 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
 
                 <img src={props.profile.photos.large} alt="User avatar"/>
 
-                <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
+                <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
+
+                {/*<ProfileStatus status={props.status} updateStatus={props.updateStatus}/>*/}
 
                 <div>
                     {props.profile.aboutMe ? `About me: ${props.profile.aboutMe}` : null}

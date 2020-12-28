@@ -50,8 +50,6 @@ type PathParamsType = {
 
 class ProfileContainer extends React.Component <MapStatePropsType & MapDispatchPropsType & RouteComponentProps<PathParamsType>> {
 
-
-
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {

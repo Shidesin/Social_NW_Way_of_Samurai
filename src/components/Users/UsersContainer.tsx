@@ -2,21 +2,17 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {UsersDataType} from '../../redux/store';
-import {
-    follow, getUsers,
-    setCurrentPage,
-    unFollow
-} from '../../redux/Users-Reducer';
+import {follow, getUsers, setCurrentPage, unFollow} from '../../redux/Users-Reducer';
 import {Users} from './Users';
-import {Preloader} from '../Preloader/Preloader';
-import {withAuthRedirectComponent} from '../../hoc/withAuthRedirect';
+import {Preloader} from '../common/Preloader/Preloader';
 import {compose} from 'redux';
 import {
-    getFollowingProgress,
     getCurrentPage,
+    getFollowingProgress,
+    getIsFetching,
     getPageSize,
-    getTotalUsersCount,
-    getIsFetching, getStateUsersSelector
+    getStateUsersSelector,
+    getTotalUsersCount
 } from '../../redux/users-selectors';
 
 
@@ -41,12 +37,14 @@ export type GetUsersItems = {
 class UsersContainer extends React.Component<UsersPropsType, AppStateType> {
 
     componentDidMount() {
-        this.props.getUsers(this.props.currentPage, this.props.pageSize)
+        const {currentPage, pageSize} = this.props
+        this.props.getUsers(currentPage, pageSize)
     }
 
     onPageChanged = (pageNumber: number) => {
+        const {pageSize} = this.props
         this.props.setCurrentPage(pageNumber);
-        this.props.getUsers(pageNumber, this.props.pageSize)
+        this.props.getUsers(pageNumber, pageSize)
     }
 
     render() {
@@ -65,18 +63,6 @@ class UsersContainer extends React.Component<UsersPropsType, AppStateType> {
         </>
     }
 }
-
-
-// let mapStateToProps = (state: AppStateType) => {
-//     return {
-//         state: state.usersPage.users,
-//         totalUsersCount: state.usersPage.totalUsersCount,
-//         pageSize: state.usersPage.pageSize,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         followingProgress: state.usersPage.followingProgress
-//     }
-// }
 
 let mapStateToProps = (state: AppStateType) => {
     return {

@@ -13,7 +13,7 @@ import Login from './components/Login/Login';
 import {connect} from 'react-redux';
 import {initialaizeApp} from './redux/appReducer';
 import {AppStateType} from './redux/redux-store';
-import {Preloader} from './components/Preloader/Preloader';
+import {Preloader} from './components/common/Preloader/Preloader';
 
 type MapDispatchPropsType = {
     initialaizeApp: (initialaized: boolean) => void

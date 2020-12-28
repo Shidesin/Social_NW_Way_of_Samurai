@@ -1,12 +1,12 @@
 import React from 'react';
 import {Field, InjectedFormProps, reduxForm} from 'redux-form'
-import {Input} from '../FormsControl/FormsControls';
+import {Input} from '../common/FormsControl/FormsControls';
 import {maxLengthCreator, requiredField} from '../../utils/validator';
 import { connect } from 'react-redux';
 import {loginTC} from '../../redux/auth-reducer';
 import {Redirect} from 'react-router-dom';
 import {AppStateType} from '../../redux/redux-store';
-import style from './../FormsControl/FormsControls.module.css'
+import style from '../common/FormsControl/FormsControls.module.css'
 
 
 type FormDataType = {
@@ -17,9 +17,9 @@ type FormDataType = {
 
 const maxLength = maxLengthCreator(50)
 
-function LoginForm(props: InjectedFormProps<FormDataType>) {
+const  LoginForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit, error}) => {
     return (
-            <form onSubmit={props.handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div>
                     <Field name={'email'} placeholder={'Login'} component={Input} validate={[requiredField, maxLength]} type="text"/>
                 </div>
@@ -29,8 +29,8 @@ function LoginForm(props: InjectedFormProps<FormDataType>) {
                 <div>
                     <Field name={'rememberMe'} component={'input'} type='checkbox'/> remember me
                 </div>
-                { props.error && <div className={style.formSummaryError}>
-                    {props.error}
+                { error && <div className={style.formSummaryError}>
+                    {error}
                 </div>}
                 <div>
                     <button>LogIn</button>

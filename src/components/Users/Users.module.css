@@ -2,14 +2,3 @@
     width: 100px;
     height: 100px;
 }
-
-.page {
-    cursor: pointer;
-    margin: 0px 10px;
-}
-
-.selectedPage {
-    font-weight: bold;
-    margin: 0px 20px;
-    cursor: pointer;
-}

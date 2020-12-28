@@ -1,6 +1,6 @@
 import {ActionTypes, ProfilePageType} from './store';
 import {GetProfileItems} from '../components/Profile/ProfileContainer';
-import {GetFollowItems, ProfileAPI} from '../api/api';
+import {ProfileAPI} from '../api/api';
 import {ThunkDispatchType, ThunkType} from './auth-reducer';
 
 const ADD_POST = 'profileReducer/ADD-POST';
@@ -8,9 +8,6 @@ const REMOVE_POST = 'profileReducer/REMOVE_POST';
 const SET_USER_PROFILE = 'profileReducer/SET_USER_PROFILE';
 const SET_STATUS = 'profileReducer/SET_STATUS';
 
-
-interface GetStatusItems extends GetFollowItems {
-}
 
 let initialState: ProfilePageType = {
     postData: [
@@ -37,7 +34,7 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionTyp
             };
         }
         case REMOVE_POST:
-            return {...state,postData: state.postData.filter(post => post.id !== action.postId)};
+            return {...state, postData: state.postData.filter(post => post.id !== action.postId)};
         case SET_USER_PROFILE:
             return {...state, profile: action.profile}
         case SET_STATUS:
@@ -64,32 +61,25 @@ export const setStatus = (status: string) => {
 }
 
 export const getProfileData = (userId: string): ThunkType => {
-    return (dispatch: ThunkDispatchType) => {
-        ProfileAPI.getProfile(userId)
-            .then((data: GetProfileItems) => {
-                dispatch(setUserProfile(data))
-            })
+    return async (dispatch: ThunkDispatchType) => {
+        let response = await ProfileAPI.getProfile(userId)
+        dispatch(setUserProfile(response))
     }
 }
 
 export const getStatus = (userId: string): ThunkType => {
-    return (dispatch: ThunkDispatchType) => {
-        ProfileAPI.getProfileStatus(userId)
-            .then((data: string) => {
-                dispatch(setStatus(data))
-            })
+    return async (dispatch: ThunkDispatchType) => {
+        let response = await ProfileAPI.getProfileStatus(userId)
+        dispatch(setStatus(response))
     }
 }
 
 export const updateStatus = (status: string): ThunkType => {
-    return (dispatch: ThunkDispatchType) => {
-        ProfileAPI.updateProfileStatus(status)
-            .then((data: GetStatusItems) => {
-                if (data.resultCode === 0) {
-                    dispatch(setStatus(status))
-                }
-
-            })
+    return async (dispatch: ThunkDispatchType) => {
+        let response = await ProfileAPI.updateProfileStatus(status)
+        if (response.resultCode === 0) {
+            dispatch(setStatus(status))
+        }
     }
 }
 

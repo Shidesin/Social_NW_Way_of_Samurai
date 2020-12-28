@@ -1,6 +1,7 @@
 import {ActionTypes, UsersDataType, UsersPageType} from './store';
 import {UserAPI} from '../api/api';
 import {ThunkDispatchType, ThunkType} from './auth-reducer';
+import {updateObjectInArray} from '../utils/object-helpers';
 
 const SET_USERS = 'SET_USERS';
 const FOLLOW = 'FOLLOW';
@@ -29,22 +30,13 @@ const usersReducer = (state: UsersPageType = initialState, action: ActionTypes):
         case FOLLOW:
             return {
                 ...state,
-                users: state.users.map((user) => {
-                    if (user.id === action.userID) {
-                        return {...user, followed: true}
-                    }
-                    return user
-                }),
+                 users: updateObjectInArray(state.users, action.userID, 'id', {followed: true})
             }
         case UNFOLLOW:
             return {
                 ...state,
-                users: state.users.map((user) => {
-                    if (user.id === action.userID) {
-                        return {...user, followed: false}
-                    }
-                    return user
-                })
+                ...state,
+                users: updateObjectInArray(state.users, action.userID, 'id', {followed: false})
             }
         case SET_USERS:
             return {...state, users: action.users}
@@ -80,44 +72,46 @@ export const setCurrentPage = (pageNumber: number) => ({type: SET_CURRENT_PAGE, 
 
 export const setIsFetching = (isFetching: boolean) => ({type: TOGGLE_iS_FETCHING, isFetching} as const)
 
-export const setFollowingProgress = (isFollowing: boolean, id: number) => ({type: TOGGLE_iS_FOLLOWING_PROGRESS, isFollowing, id} as const)
+export const setFollowingProgress = (isFollowing: boolean, id: number) => ({
+    type: TOGGLE_iS_FOLLOWING_PROGRESS,
+    isFollowing,
+    id
+} as const)
 
 
-export const getUsers = (currentPage: number,pageSize: number): ThunkType => {
-    return (dispatch: ThunkDispatchType) => {
+export const getUsers = (currentPage: number, pageSize: number): ThunkType => {
+    return async (dispatch: ThunkDispatchType) => {
         dispatch(setIsFetching(true))
-        UserAPI.getUsers(currentPage, pageSize)
-            .then(data => {
-                dispatch(setIsFetching(false))
-                dispatch(setUsers(data.items));
-                dispatch(setTotalUsersCount(data.totalCount))
-            })
+        let response = await UserAPI.getUsers(currentPage, pageSize)
+        dispatch(setIsFetching(false))
+        dispatch(setUsers(response.items));
+        dispatch(setTotalUsersCount(response.totalCount))
+
     }
 }
 
+const followUnfollowFlow = async (dispatch: ThunkDispatchType, id: number, apiMethod: any, actionCreator: any) => {
+    dispatch(setFollowingProgress(true, id));
+    let response = await apiMethod(id)
+    if (response.resultCode === 0) {
+        dispatch(actionCreator(id))
+    }
+    dispatch(setFollowingProgress(false, id))
+}
+
+
 export const follow = (id: number): ThunkType => {
-    return (dispatch: ThunkDispatchType) => {
-        dispatch(setFollowingProgress(true, id))
-        UserAPI.postUser(id)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(followSuccess(id))
-                }
-                dispatch(setFollowingProgress(false, id))
-            })
+    return async (dispatch: ThunkDispatchType) => {
+        let apiMethod = UserAPI.postUser.bind(UserAPI)
+        followUnfollowFlow(dispatch, id, apiMethod, followSuccess)
     }
 }
 
 export const unFollow = (id: number): ThunkType => {
-    return (dispatch: ThunkDispatchType) => {
-        dispatch(setFollowingProgress(true, id))
-        UserAPI.deleteUser(id)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(unFollowSuccess(id))
-                }
-                dispatch(setFollowingProgress(false, id))
-            })
+    return async (dispatch: ThunkDispatchType) => {
+        let apiMethod = UserAPI.deleteUser.bind(UserAPI)
+        followUnfollowFlow(dispatch, id, apiMethod, unFollowSuccess)
+
     }
 }
 

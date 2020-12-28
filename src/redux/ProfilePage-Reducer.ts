@@ -3,10 +3,10 @@ import {GetProfileItems} from '../components/Profile/ProfileContainer';
 import {GetFollowItems, ProfileAPI} from '../api/api';
 import {ThunkDispatchType, ThunkType} from './auth-reducer';
 
-const ADD_POST = 'ADD-POST';
-const REMOVE_POST = 'REMOVE_POST';
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_STATUS = 'SET_STATUS';
+const ADD_POST = 'profileReducer/ADD-POST';
+const REMOVE_POST = 'profileReducer/REMOVE_POST';
+const SET_USER_PROFILE = 'profileReducer/SET_USER_PROFILE';
+const SET_STATUS = 'profileReducer/SET_STATUS';
 
 
 interface GetStatusItems extends GetFollowItems {
@@ -22,8 +22,6 @@ let initialState: ProfilePageType = {
     status: ''
 }
 
-// type initialStateProfileType = typeof initialState
-
 const profileReducer = (state: ProfilePageType = initialState, action: ActionTypes): ProfilePageType => {
 
     switch (action.type) {
@@ -38,7 +36,7 @@ const profileReducer = (state: ProfilePageType = initialState, action: ActionTyp
                 }]
             };
         }
-        case 'REMOVE_POST':
+        case REMOVE_POST:
             return {...state,postData: state.postData.filter(post => post.id !== action.postId)};
         case SET_USER_PROFILE:
             return {...state, profile: action.profile}

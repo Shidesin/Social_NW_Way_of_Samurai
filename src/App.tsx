@@ -30,7 +30,6 @@ class App extends React.Component<mapStateToPropsType & MapDispatchPropsType> {
         this.props.initialaizeApp(true)
     }
 
-
     render() {
         if (!this.props.initialaized){
             return <Preloader/>

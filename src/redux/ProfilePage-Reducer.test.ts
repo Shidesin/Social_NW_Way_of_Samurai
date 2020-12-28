@@ -43,3 +43,11 @@ it('After deleting length of postData  should be decrement', () => {
     expect(newState.postData.length).toBe(1)
 });
 
+it('After deleting length of postData  should not be decrement if ID is incorrect', () => {
+
+    let action = DeletePostActionCreator(10000)
+
+    let newState = profileReducer(state, action)
+
+    expect(newState.postData.length).toBe(2)
+});
